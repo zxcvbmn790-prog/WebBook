@@ -1,30 +1,30 @@
 package Book;
 
 public class BookVO {
-	int ibns;  // Ã¥ ¾ÆÀÌµğ
-	String bookname;  // Ã¥ ÀÌ¸§
-	String author; // ÀúÀÚ
-	String publisher; // ÃâÆÇ»ç
-	String image; // ÀÌ¹ÌÁö
+	int isbn;  // ì±… ì•„ì´ë”” (ISBN)
+	String bookname;  // ì±… ì´ë¦„
+	String author; // ì €ì
+	String publisher; // ì¶œíŒì‚¬
+	String image; // ì´ë¯¸ì§€
 
 	public BookVO() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public BookVO(int ibns, String bookname, String author, String publisher, String image) {
-		this.ibns = ibns;
+	public BookVO(int isbn, String bookname, String author, String publisher, String image) {
+		this.isbn = isbn;
 		this.bookname = bookname;
 		this.author = author;
 		this.publisher = publisher;
 		this.image = image;
 	}
 
-	public int getIbns() {
-		return ibns;
+	public int getIsbn() {
+		return isbn;
 	}
 
-	public void setIbns(int ibns) {
-		this.ibns = ibns;
+	public void setIsbn(int isbn) {
+		this.isbn = isbn;
 	}
 
 	public String getBookname() {
@@ -61,10 +61,8 @@ public class BookVO {
 
 	@Override
 	public String toString() {
-		return "AdminVO [ibns=" + ibns + ", bookname=" + bookname + ", author=" + author + ", publisher=" + publisher
+		return "BookVO [isbn=" + isbn + ", bookname=" + bookname + ", author=" + author + ", publisher=" + publisher
 				+ ", image=" + image + "]";
 	}
-	
-	
 	
 }
