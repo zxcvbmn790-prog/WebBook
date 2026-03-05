@@ -1,0 +1,36 @@
+package common;
+
+public class BookVO {
+    private int isbn; // 책 고유번호
+    private String bookname; // 책 제목
+    private String author; // 저자
+    private String publisher; // 출판사
+    private String image; // 책 표지 파일명
+
+    public BookVO() {}
+
+    public BookVO(int isbn, String bookname, String author, String publisher, String image) {
+        this.isbn = isbn;
+        this.bookname = bookname;
+        this.author = author;
+        this.publisher = publisher;
+        this.image = image;
+    }
+
+    public int getIsbn() { return isbn; }
+    public void setIsbn(int isbn) { this.isbn = isbn; }
+    public String getBookname() { return bookname; }
+    public void setBookname(String bookname) { this.bookname = bookname; }
+    public String getAuthor() { return author; }
+    public void setAuthor(String author) { this.author = author; }
+    public String getPublisher() { return publisher; }
+    public void setPublisher(String publisher) { this.publisher = publisher; }
+    public String getImage() { return image; }
+    public void setImage(String image) { this.image = image; }
+
+    @Override
+    public String toString() {
+        return "BookVO [isbn=" + isbn + ", bookname=" + bookname + ", author=" + author 
+                + ", publisher=" + publisher + ", image=" + image + "]";
+    }
+}
