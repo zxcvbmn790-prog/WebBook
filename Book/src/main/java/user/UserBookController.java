@@ -10,11 +10,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import common.BookVO;
-import user.UserBookService;
-
 
 @WebServlet("/user/*")
 public class UserBookController extends HttpServlet {
+
     private UserBookService service;
 
     public UserBookController() {
@@ -22,34 +21,43 @@ public class UserBookController extends HttpServlet {
     }
 
     @Override
-    protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void service(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+
         req.setCharacterEncoding("UTF-8");
-        
-        String uri = req.getRequestURI();
-        String[] command = uri.split("/"); 
+
+        String path = req.getPathInfo();       // "/views" 또는 "/view"
+        String command = path.substring(1);    // "views" 또는 "view"
         String page = "";
 
-        switch (command[2]) {
-        	// 전체출력
+        switch (command) {
+
+            // 전체 출력
             case "views":
-            	// 데이터를 가져오는 작업
-        		List<BookVO> list=service.getBookList();
-        		// 데이터를 저장하는 작업
-        		req.setAttribute("list",list);
-        		// 저장된 데이터를 표시하는 페이지 이동
-        		// req.getRequestDispatcher("/WEB-INF/views/views.jsp").forward(req, resp);
+                List<BookVO> list = service.getBookList();
+                req.setAttribute("list", list);
                 page = "views";
                 break;
-               
-            // 선택출력
+
+            // 상세 보기
             case "view":
-            	
-            	page = "view";
+                String isbnParam = req.getParameter("isbn");
+
+                // isbn 없으면 목록으로 리다이렉트
+                if (isbnParam == null || isbnParam.isEmpty()) {
+                    resp.sendRedirect(req.getContextPath() + "/user/views");
+                    return;
+                }
+
+                int isbn = Integer.parseInt(isbnParam);
+                BookVO book = service.getBookById(isbn);
+                req.setAttribute("book", book);
+                page = "view";
                 break;
         }
-        
-        if(!page.equals("")) {
-    		req.getRequestDispatcher("/WEB-INF/views/"+page+".jsp").forward(req, resp);
-    	}
+
+        if (!page.equals("")) {
+            req.getRequestDispatcher("/WEB-INF/views/" + page + ".jsp").forward(req, resp);
+        }
     }
 }

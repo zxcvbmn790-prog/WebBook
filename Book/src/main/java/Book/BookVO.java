@@ -1,22 +1,33 @@
 package Book;
 
 public class BookVO {
-	int isbn;  // 책 아이디 (ISBN)
-	String bookname;  // 책 이름
-	String author; // 저자
-	String publisher; // 출판사
-	String image; // 이미지
+	
+	private int isbn;         // 도서 번호
+    private String bookname;  // 도서 제목
+    private String author;    // 저자
+    private String publisher; // 출판사
+    private String image;     // 도서 이미지 경로
+    private String price;	  // 가격
 
-	public BookVO() {
-		// TODO Auto-generated constructor stub
-	}
-
-	public BookVO(int isbn, String bookname, String author, String publisher, String image) {
+    // 기본 생성자
+    public BookVO() {}
+    
+    public BookVO(int isbn, String bookname, String author, String publisher, String image) {
 		this.isbn = isbn;
 		this.bookname = bookname;
 		this.author = author;
 		this.publisher = publisher;
 		this.image = image;
+	}
+
+	public BookVO(int isbn, String bookname, String author, String publisher, String image, String price) {
+		super();
+		this.isbn = isbn;
+		this.bookname = bookname;
+		this.author = author;
+		this.publisher = publisher;
+		this.image = image;
+		this.price = price;
 	}
 
 	public int getIsbn() {
@@ -59,10 +70,17 @@ public class BookVO {
 		this.image = image;
 	}
 
+	public String getPrice() {
+		return price;
+	}
+
+	public void setPrice(String price) {
+		this.price = price;
+	}
+
 	@Override
 	public String toString() {
 		return "BookVO [isbn=" + isbn + ", bookname=" + bookname + ", author=" + author + ", publisher=" + publisher
-				+ ", image=" + image + "]";
+				+ ", image=" + image + ", price=" + price + "]";
 	}
-	
 }
