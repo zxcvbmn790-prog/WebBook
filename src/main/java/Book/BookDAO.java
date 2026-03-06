@@ -1,4 +1,4 @@
-package common;
+package Book;
 
 import java.util.List;
 
@@ -6,6 +6,6 @@ public interface BookDAO {
 	public int save(BookVO pb);
 	public List<BookVO> findAll();
 	public BookVO findById(int id);
-	public int update(BookVO pb); //idï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¸ï¿½ ï¿½Ø´ï¿½ ï¿½ï¿½ï¿½Ìµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¼ï¿½ï¿½ï¿½.
+	public int update(BookVO pb); //id°¡ Á¸ÀçÇÏ¸é ÇØ´ç ¾ÆÀÌµð¿¡ ´ëÇØ ³ª¸ÓÁö¸¦ ¼öÁ¤ÇÏ¼¼¿ä.
 	public int delete(int id);
-}
+	}

@@ -23,9 +23,6 @@ body {
 </style>
 </head>
 <body>
-	<%
-	if (request.getSession().getAttribute("username") == null) {
-	%>
 	<div
 		class="container d-flex justify-content-center align-items-center vh-100">
 		<div class="card shadow login-card">
@@ -57,7 +54,7 @@ body {
 
 					<!-- Links -->
 					<div class="text-center">
-						<a href="${pageContext.request.contextPath}/register"
+						<a href="${pageContext.request.contextPath}/member/register"
 							class="text-decoration-none me-2"> 회원가입 </a>
 					</div>
 				</form>
@@ -65,13 +62,6 @@ body {
 			</div>
 		</div>
 	</div>
-	<%
-	} else {
-	%>
-
-	<%
-	}
-	%>
 	<!-- Bootstrap JS -->
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>

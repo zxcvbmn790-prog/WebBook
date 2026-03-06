@@ -1,50 +1,41 @@
 package common;
 
 public class BookVO {
-	int ibns;  // å ���̵�
-	String id;
-	String password;
-	String bookname;  // å �̸�
-	String author; // ����
-	String publisher; // ���ǻ�
-	String image; // �̹���
+	
+	private int isbn;         // 도서 번호
+    private String bookname;  // 도서 제목
+    private String author;    // 저자
+    private String publisher; // 출판사
+    private String image;     // 도서 이미지 경로
+    private String price;	  // 가격
 
-	public BookVO() {
-		// TODO Auto-generated constructor stub
-	}
-
-	public BookVO(int ibns, String id, String password, String bookname, String author, String publisher, String image) {
-		this.ibns = ibns;
-		this.id = id;
-		this.password = password;
+    // 기본 생성자
+    public BookVO() {}
+    
+    public BookVO(int isbn, String bookname, String author, String publisher, String image) {
+		this.isbn = isbn;
 		this.bookname = bookname;
 		this.author = author;
 		this.publisher = publisher;
 		this.image = image;
 	}
 
-	public String getId() {
-		return id;
+	public BookVO(int isbn, String bookname, String author, String publisher, String image, String price) {
+		super();
+		this.isbn = isbn;
+		this.bookname = bookname;
+		this.author = author;
+		this.publisher = publisher;
+		this.image = image;
+		this.price = price;
 	}
 
-	public void setId(String id) {
-		this.id = id;
+	public int getIsbn() {
+		return isbn;
 	}
 
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public int getIbns() {
-		return ibns;
-	}
-
-	public void setIbns(int ibns) {
-		this.ibns = ibns;
+	public void setIsbn(int isbn) {
+		this.isbn = isbn;
 	}
 
 	public String getBookname() {
@@ -79,9 +70,17 @@ public class BookVO {
 		this.image = image;
 	}
 
+	public String getPrice() {
+		return price;
+	}
+
+	public void setPrice(String price) {
+		this.price = price;
+	}
+
 	@Override
 	public String toString() {
-		return "BookVO [ibns=" + ibns + ", id=" + id + ", password=" + password + ", bookname=" + bookname + ", author="
-				+ author + ", publisher=" + publisher + ", image=" + image + "]";
+		return "BookVO [isbn=" + isbn + ", bookname=" + bookname + ", author=" + author + ", publisher=" + publisher
+				+ ", image=" + image + ", price=" + price + "]";
 	}
 }
