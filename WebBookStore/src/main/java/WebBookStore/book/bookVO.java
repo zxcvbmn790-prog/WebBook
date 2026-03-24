@@ -2,12 +2,18 @@ package WebBookStore.book;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 // Lombok 사용
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
+@ToString
 public class bookVO {
     private int id;             // 책 ID
     private String title;       // 책 제목
