@@ -8,23 +8,32 @@
 	rel="stylesheet">
 
 <style>
+/* style.css가 적용된 환경에 맞춘 로그인 컨테이너 설정 */
 .login-container {
-	width: 100%; /* 🌟 이 줄을 추가해 주세요! (가로 전체 영역 차지) */
+	/* 부모 태그의 속성(flex, grid 등)을 완전히 무시하고 화면 밖으로 빼냄 */
+	position: absolute; 
+	top: 60px; /* 헤더 높이(60px)만큼 위에서 띄움 */
+	left: 0;
+	
+	/* 화면 전체 가로/세로 길이를 강제로 할당 */
+	width: 100vw; 
 	min-height: calc(100vh - 60px);
+	
+	/* 완벽한 중앙 정렬 */
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	padding: 40px 20px;
-	background-color: var(- -bg);
+	
+	background-color: var(--bg);
+	z-index: 10; /* 다른 레이아웃에 밀리지 않게 위로 띄움 */
 }
 
 .login-card {
 	width: 100%;
 	max-width: 420px;
-	background: var(- -surface);
-	border: 1px solid var(- -border);
+	background: var(--surface); /* 오타 수정됨(--) */
+	border: 1px solid var(--border);
 	border-radius: 4px;
-	/* 책 카드에 쓰인 그림자 효과와 통일 */
 	box-shadow: 0 12px 32px rgba(44, 37, 32, 0.08);
 	padding: 48px 40px;
 }
@@ -32,7 +41,7 @@
 .login-title {
 	font-family: 'DM Serif Display', serif;
 	font-size: 32px;
-	color: var(- -text);
+	color: var(--text);
 	text-align: center;
 	margin-bottom: 36px;
 }
@@ -42,16 +51,16 @@
 	font-weight: 500;
 	letter-spacing: 1.5px;
 	text-transform: uppercase;
-	color: var(- -text-sub);
+	color: var(--text-sub);
 	margin-bottom: 8px;
 	display: block;
 }
 
 .custom-input {
 	width: 100%;
-	background: var(- -bg);
-	border: 1px solid var(- -border);
-	color: var(- -text);
+	background: var(--bg);
+	border: 1px solid var(--border);
+	color: var(--text);
 	font-family: 'DM Sans', sans-serif;
 	font-size: 14px;
 	padding: 13px 16px;
@@ -62,18 +71,17 @@
 
 .custom-input:focus {
 	outline: none;
-	border-color: var(- -accent);
-	background: var(- -surface);
+	border-color: var(--accent);
+	background: var(--surface);
 }
 
 .custom-input::placeholder {
-	color: var(- -text-muted);
+	color: var(--text-muted);
 }
 
-/* style.css의 .btn-buy 스타일을 로그인 버튼에 적용 */
 .btn-login {
 	width: 100%;
-	background: #3e3028;
+	background: var(--accent); /* style.css의 변수 재활용 */
 	color: #faf7f2;
 	border: none;
 	padding: 14px 22px;
@@ -88,7 +96,7 @@
 }
 
 .btn-login:hover {
-	background: #3e3028;
+	background: #3e3028; /* hover 색상도 기존 테마와 통일 */
 }
 
 .login-links {
@@ -97,13 +105,13 @@
 
 .login-links a {
 	font-size: 13px;
-	color: var(- -text-sub);
+	color: var(--text-sub);
 	text-decoration: none;
 	transition: color 0.2s;
 }
 
 .login-links a:hover {
-	color: var(- -text);
+	color: var(--text);
 	text-decoration: underline;
 }
 </style>

@@ -18,6 +18,12 @@ public class MemberController {
 		model.addAttribute("contentPage",contentPage);
 		return "layout/layout";
 	}
+	@RequestMapping(value="register", method=RequestMethod.GET)
+    public String register(Model model) {
+		String contentPage = "/WEB-INF/views/member/register.jsp";
+		model.addAttribute("contentPage",contentPage);
+		return "layout/layout";
+	}
     		
     @RequestMapping(value="login", method=RequestMethod.POST)
     public String login(String username, String password, HttpSession session) {
@@ -26,7 +32,6 @@ public class MemberController {
             session.setAttribute("loginUser", username);
             return "redirect:/";
         }
-
         return "redirect:/login?error=true";
     }
     // http://localhost:8888/logout
