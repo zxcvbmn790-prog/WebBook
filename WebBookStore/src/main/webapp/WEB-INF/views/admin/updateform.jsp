@@ -1,5 +1,9 @@
+<%@page import="WebBookStore.admin.AdminVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%
+AdminVO pb=(AdminVO)request.getAttribute("admin");
+%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -182,28 +186,28 @@
         <form action="${pageContext.request.contextPath}/admin/update" method="post">
             <div class="field">
                 <label>ISBN</label>
-                <input type="text" value="${book.isbn}" readonly>
-                <input type="hidden" name="isbn" value="${book.isbn}">
+                <input type="text" value="${admin.isbn}" readonly>
+                <input type="hidden" name="isbn" value="${admin.isbn}">
             </div>
             <div class="field">
                 <label>도서명</label>
-                <input type="text" name="bookname" value="${book.bookname}" required>
+                <input type="text" name="bookname" value="${admin.bookname}" required>
             </div>
             <div class="field">
                 <label>저자</label>
-                <input type="text" name="author" value="${book.author}" required>
+                <input type="text" name="author" value="${admin.author}" required>
             </div>
             <div class="field">
                 <label>출판사</label>
-                <input type="text" name="publisher" value="${book.publisher}" required>
+                <input type="text" name="publisher" value="${admin.publisher}" required>
             </div>
             <div class="field">
                 <label>이미지 경로</label>
-                <input type="text" name="image" value="${book.image}">
+                <input type="text" name="image" value="${admin.image}">
             </div>
             <div class="field">
                 <label>가격</label>
-                <input type="text" name="price" value="${book.price}">
+                <input type="text" name="price" value="${admin.price}">
             </div>
 
             <div class="btn-group">
