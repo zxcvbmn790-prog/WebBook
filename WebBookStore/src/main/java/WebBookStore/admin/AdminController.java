@@ -22,9 +22,15 @@ public class AdminController {
 	// 수정 처리
 	@RequestMapping("/update")
 	public String update(AdminVO admin, Model model) {
-		int result = adminService.updateBook(admin);
-
+		boolean result = adminService.updateBook(admin);
+		if(result) {
+			
+		}else {
+			
+		}
 		
+		String contentPage = "/WEB-INF/views/user/views.jsp";
+		model.addAttribute("contentPage", contentPage);
 		return "layout/layout";
 	}
 }

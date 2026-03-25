@@ -26,8 +26,8 @@ public class AdminService {
     }
 
     // 수정
-    public int updateBook(AdminVO admin) {
-        return dao.update(admin);
+    public boolean updateBook(AdminVO admin) {
+    	return dao.update(admin)>0 ? true : false;
     }
 
     // 삭제
