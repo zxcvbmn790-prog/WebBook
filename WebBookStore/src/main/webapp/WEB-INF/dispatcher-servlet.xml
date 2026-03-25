@@ -21,7 +21,18 @@
 	<mvc:resources mapping="/js/**" location="/js/" />
 
 	<mvc:annotation-driven />
+	<bean id="driver" class="org.h2.Driver" />
 
+	<bean id="ds"
+		class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
+		<constructor-arg ref="driver" />
+		<constructor-arg
+			value="jdbc:h2:tcp://localhost/~/test" />
+		<constructor-arg value="sa" />
+		<constructor-arg value="" />
+	</bean>
+
+	<bean id="conn" factory-bean="ds" factory-method="getConnection" />
 	<mvc:interceptors>
 		<mvc:interceptor>
 			<mvc:mapping path="/**" />

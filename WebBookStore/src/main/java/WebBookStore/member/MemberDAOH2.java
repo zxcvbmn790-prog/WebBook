@@ -1,11 +1,17 @@
-package Member;
+package WebBookStore.member;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+@Repository
 public class MemberDAOH2 implements MemberDAO {
+	
+	@Autowired
 	Connection conn;
 
 	public MemberDAOH2() {
@@ -28,11 +34,11 @@ public class MemberDAOH2 implements MemberDAO {
 			try (ResultSet rs = ps.executeQuery()) {
 				if (rs.next()) {
 					return new MemberVO(
-							rs.getString("id"), 
-							rs.getString("pw"), 
-							rs.getString("hp"),
+							rs.getInt("id"), 
+							rs.getString("username"), 
+							rs.getString("password"),
 							rs.getString("email"), 
-							rs.getString("nickname")
+							rs.getString("phone")
 					);
 				}
 			}
@@ -46,11 +52,11 @@ public class MemberDAOH2 implements MemberDAO {
 	public int register(MemberVO mv) {
 		String sql = "INSERT INTO member (id, pw, hp, email, nickname) VALUES (?, ?, ?, ?, ?)";
 		try (PreparedStatement ps = conn.prepareStatement(sql)) {
-			ps.setString(1, mv.getId());
-			ps.setString(2, mv.getPw());
-			ps.setString(3, mv.getHp());
+			ps.setInt(1, mv.getId());
+			ps.setString(2, mv.getUsername());
+			ps.setString(3, mv.getPassword());
 			ps.setString(4, mv.getEmail());
-			ps.setString(5, mv.getNickname());
+			ps.setString(5, mv.getPhone());
 			
 			int result = ps.executeUpdate();
 			if (result > 0) {
