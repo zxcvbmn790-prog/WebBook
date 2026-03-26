@@ -297,7 +297,9 @@ nav a:hover {
 		<c:choose>
 			<c:when test="${not empty list}">
 				<c:forEach var="book" items="${list}">
-					<div class="book-card">
+					<%-- 카드 클릭 → 상세보기, 수정/삭제 버튼은 전파 방지 --%>
+					<a class="book-card"
+					   href="${pageContext.request.contextPath}/admin/view?isbn=${book.isbn}">
 						<div class="img-wrap">
 							<c:choose>
 								<c:when test="${not empty book.image}">
@@ -311,7 +313,7 @@ nav a:hover {
 						</div>
 						<div class="card-info">
 							<div class="card-title">${book.bookname}</div>
-							<div class="card-author">${book.author}·${book.publisher}</div>
+							<div class="card-author">${book.author} · ${book.publisher}</div>
 							<div class="card-price">
 								<c:choose>
 									<c:when test="${not empty book.price}">${book.price}원</c:when>
@@ -319,15 +321,14 @@ nav a:hover {
 								</c:choose>
 							</div>
 						</div>
-						<div style="display: flex;">
-							<a
-								href="${pageContext.request.contextPath}/admin/updateform?isbn=${book.isbn}"
-								class="btn-action btn-update">수정</a> <a
-								href="${pageContext.request.contextPath}/admin/delete?isbn=${book.isbn}"
+						<div style="display: flex;" onclick="event.preventDefault();">
+							<a href="${pageContext.request.contextPath}/admin/updateform?isbn=${book.isbn}"
+								class="btn-action btn-update">수정</a>
+							<a href="${pageContext.request.contextPath}/admin/delete?isbn=${book.isbn}"
 								class="btn-action btn-delete"
 								onclick="return confirm('정말 삭제하시겠습니까?')">삭제</a>
 						</div>
-					</div>
+					</a>
 				</c:forEach>
 			</c:when>
 			<c:otherwise>
