@@ -211,7 +211,7 @@ nav a:hover {
 	<header>
 		<div class="logo">Booklist</div>
 		<nav>
-			<a href="${pageContext.request.contextPath}/user/list">전체 목록</a>
+			<a href="${pageContext.request.contextPath}/list">전체 목록</a>
 
 			<c:choose>
 				<c:when test="${not empty sessionScope.nickname}">
