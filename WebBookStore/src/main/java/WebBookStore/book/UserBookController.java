@@ -1,10 +1,12 @@
 package WebBookStore.book;
 
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
@@ -15,10 +17,16 @@ public class UserBookController {
 	private UserBookService bookService;
 
 	// 전체 출력
-	@RequestMapping("/list")
-	public String list(Model model) {
-		model.addAttribute("list", bookService.getBookList());
-		model.addAttribute("contentPage", "/WEB-INF/views/book/list.jsp");
+	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	public String list(@RequestParam(value = "searchType", required = false) String searchType,
+			@RequestParam(value = "keyword", required = false) String keyword, Model model) {
+
+		List<BookVO> list = bookService.getBookList(searchType, keyword);
+		model.addAttribute("list", list);
+
+		String contentPage = "/WEB-INF/views/book/views.jsp";
+		model.addAttribute("contentPage", contentPage);
+
 		return "layout/layout";
 	}
 

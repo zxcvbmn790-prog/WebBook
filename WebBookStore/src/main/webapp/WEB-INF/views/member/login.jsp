@@ -136,9 +136,9 @@
 				</div>
 
 
+				<button type="submit" class="btn-login">로그인</button>
 				<div class="login-links">
 					<a href="${pageContext.request.contextPath}/member/register">회원가입</a>
-				<button type="submit" class="btn-login">로그인</button>
 				</div>
 			</form>
 

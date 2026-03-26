@@ -28,7 +28,7 @@ public class MemberController {
 
 		if (loginUser != null) {
 			session.setAttribute("loginUser", loginUser.getUsername());
-			return "redirect:/list";
+			return "redirect:/book/list";
 		}
 
 		return "redirect:/member/login?error=true";

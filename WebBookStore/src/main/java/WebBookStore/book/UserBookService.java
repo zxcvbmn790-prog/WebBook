@@ -1,24 +1,20 @@
 package WebBookStore.book;
 
-
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserBookService {
 
-    @Autowired
-    private UserBookDAO bookDAO;
+	@Autowired
+	private UserBookDAO dao;
 
-    // 전체 출력
-    public List<BookVO> getBookList() {
-        return bookDAO.findAll();
-    }
+	public List<BookVO> getBookList(String searchType, String keyword) {
+		return dao.findAll(searchType, keyword);
+	}
 
-    // 선택 출력
-    public BookVO getBook(int isbn) {
-        return bookDAO.findByIsbn(isbn);
-    }
+	public BookVO getBook(int isbn) {
+		return dao.findByIsbn(isbn);
+	}
 }
