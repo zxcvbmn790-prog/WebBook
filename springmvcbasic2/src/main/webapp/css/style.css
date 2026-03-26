@@ -1,0 +1,172 @@
+@charset "UTF-8";
+body{
+    margin:0;
+    height:100vh;
+    overflow:hidden;   /* body 스크롤 제거 */
+}
+
+/* 전체 레이아웃 */
+.wrapper{
+    height:100%;
+    display:flex;
+    flex-direction:column;
+}
+
+/* header */
+header{
+    height:80px;
+    background:#343a40;
+    color:white;
+}
+
+/* footer */
+footer{
+    height:60px;
+    background:#343a40;
+    color:white;
+}
+
+/* main */
+main{
+    flex:1;
+    overflow-y:auto;   /* 내부 스크롤 */
+    padding:20px;
+}
+
+
+
+ /* 전체 레이아웃에 대한 스타일 */
+        *{margin:0;padding:0}
+           
+        .header{}        
+        
+        .footer>footer{
+            background-color: gray;
+        }
+
+        /* nav 스타일 */
+        nav{display: flex; padding:10px;}
+        nav ul{display:flex}
+        .navbar_logo,  .navbar_menu, .navbar_icon{
+            list-style: none;
+        }
+        .navbar{border:1px solid black}
+
+        .navbar_logo{border:1px solid red}
+        .navbar_menu{border:1px solid green}
+        .navbar_icon{border:1px solid blue}
+
+        /* navbar에서 로그는 왼쪽, 메뉴는 중앙, 아이콘은 오른쪽 배치 */
+        .navbar{justify-content: space-between;}
+
+        /* navbar_menu의 내용을 위아래 좌우 간격을 조정 */
+        .navbar_menu > li{
+            padding : 8px 12px;
+        }
+
+        /* navbar_logo와 navbar_incon을 위아래 좌우 간격을 조정 */
+         .navbar{align-items: center;} 
+         .navbar_logo > li{ padding : 8px 0px;}
+         .navbar_icon > li{ padding : 8px 5px;}
+
+         /* 배경색, 글자색, 글자크기 설정 */
+        /* 전체 navbar에 배경색상, 글자색상, 크기 지정 */
+        .navbar{
+            background-color:#263343 ;
+            color:white;
+        }
+        /* border없애기 */
+        .navbar, .navbar_logo, .navbar_menu, .navbar_icon{border:none}
+
+        /* 개별 배경색상, 글자색상, 크기 지정(별도설정) */
+
+        /* 효과지정 */
+        /* 메뉴에 마우스를 올렸을 때 배경색, 글자색 변경 */
+        .navbar_menu > li:hover{
+            background-color: white;
+            color:black;
+            border-radius: 5px;
+        }
+
+        /* 메뉴바 icon을 코드에 넣은 후 표시되지 않게 처리하는 방법 */
+        /* 화면에 표시여부는 display에 none, block으로 처리 가능 */
+        /* 미디어 커리 전에 사전 설정을 해야함 display가 적용됨 */
+        .fa-bars{
+            display: none;
+            position:absolute;
+            top:10px;
+            right:10px;
+        }
+
+         /* 스크린 너비가 768보다 작을 경우 적용하는 스타일 */
+         /* 기본 flex는 한행에 여러개의 요소가 나열되지만, 한줄에 하나씩 나열되도록 처리 */
+        @media screen and (max-width:768px) {
+            .navbar{
+                flex-direction: column;
+            }
+
+            .navbar_menu{
+                flex-direction:column;
+                /* 메뉴를 선택했을 때 전체 행이 반전되도록 처리. 문제점:좌측정렬 */
+                width: 100%; 
+                /* 좌측정렬 문제점 해결 - 다른 문제점은 width가 100% 적용 안되는 문제 발생*/
+                /* align-items: center; */
+            }
+            /* 좌측정렬 문제점 해결*/
+            .navbar_menu > li{
+                text-align: center;
+            }
+            .fa-bars{
+                display: block;
+            }
+           
+        }
+        
+        /* 메뉴에 a링크를 처리할 경우 a tag의 color와 밑줄이 처리되어 있어 디자인 문제 */
+        .navbar_menu>li>a{
+            color:white;
+            text-decoration: none;
+        }
+
+        .navbar_menu>li>a:hover{
+             color:black;
+        }
+        /* li에 마우스 over가 될 때 하위 a의 속성을 변경하라 */
+        .navbar_menu>li:hover > a{
+             color:black;
+        }
+
+        /* aside */
+
+        /* main */
+
+        /* footer */
+        footer {
+        color: #fff;
+        padding: 20px;
+        text-align: center;
+        font-size: 14px;
+        }
+
+        footer a {
+        color: #aaa;
+        text-decoration: none;
+        margin: 0 10px;
+        }
+
+        footer a:hover {
+        color: #fff;
+        }
+
+        .login {
+            background-color: #f8f9fa;
+        }
+        .login-card {
+            width: 100%;
+            max-width: 400px;
+        }
+        .index-title{
+        background-color: aqua;
+        }
+        .index > p > img{width:100px}
+        .index img{width:100px}
