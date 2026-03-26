@@ -62,4 +62,11 @@ public class AdminController {
 		model.addAttribute("contentPage", contentPage);
 		return "layout/layout";
 	}
+	
+	// 삭제
+	@RequestMapping("delete")
+	public String delete(int id) {
+		adminService.deleteBook(id);
+		return "redirect:/phonebook/list";
+	}
 }
