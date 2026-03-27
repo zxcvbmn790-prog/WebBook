@@ -30,4 +30,8 @@ public class CartService {
 			cartDao.updateCart(cartVO);
 		}
 	}
+
+	public Object deleteBook(int isbn) {
+		return cartDao.delete(isbn);
+	}
 }

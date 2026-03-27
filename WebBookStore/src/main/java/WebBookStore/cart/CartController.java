@@ -8,6 +8,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import WebBookStore.admin.AdminService;
 
 @Controller
 @RequestMapping("/cart")
@@ -15,6 +18,7 @@ public class CartController {
 
 	@Autowired
 	private CartService cartService;
+
 
 	@RequestMapping(value = "/insert", method = RequestMethod.POST)
 	public String insert(@ModelAttribute CartVO cartVO) {
@@ -48,4 +52,11 @@ public class CartController {
 		model.addAttribute("contentPage", "/WEB-INF/views/cart/list.jsp");
 		return "layout/layout";
 	}
+	
+	@RequestMapping("/delete")
+	public String delete(@RequestParam("isbn") int isbn) { // id 대신 isbn으로 명시
+		cartService.deleteBook(isbn);
+		return "redirect:/cart/list";
+	}
+	
 }

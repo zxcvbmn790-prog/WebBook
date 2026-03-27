@@ -3,6 +3,7 @@ package WebBookStore.cart;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -85,6 +86,26 @@ public class CartDAO {
 			ps.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
+		}
+	}
+
+	public Object delete(int isbn) {
+		String sqlCart = "DELETE FROM cart WHERE isbn = ?";
+		try {
+			PreparedStatement psCart = conn.prepareStatement(sqlCart);
+			psCart.setInt(1, isbn);
+			int result = psCart.executeUpdate();
+			psCart.close();
+
+			//PreparedStatement psBook = conn.prepareStatement(sqlBook);
+			//psBook.setInt(1, isbn);
+			//int result = psBook.executeUpdate();
+			//psBook.close();
+
+			return result;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return 0;
 		}
 	}
 }
