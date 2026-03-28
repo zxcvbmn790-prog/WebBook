@@ -31,7 +31,7 @@ public class CartService {
 		}
 	}
 
-	public Object deleteBook(int isbn) {
-		return cartDao.delete(isbn);
+	public int deleteBook(String userid, int isbn) {
+	    return cartDao.delete(userid, isbn);
 	}
 }

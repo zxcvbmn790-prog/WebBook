@@ -89,23 +89,16 @@ public class CartDAO {
 		}
 	}
 
-	public Object delete(int isbn) {
-		String sqlCart = "DELETE FROM cart WHERE isbn = ?";
-		try {
-			PreparedStatement psCart = conn.prepareStatement(sqlCart);
-			psCart.setInt(1, isbn);
-			int result = psCart.executeUpdate();
-			psCart.close();
-
-			//PreparedStatement psBook = conn.prepareStatement(sqlBook);
-			//psBook.setInt(1, isbn);
-			//int result = psBook.executeUpdate();
-			//psBook.close();
-
-			return result;
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return 0;
-		}
+	// isbn만 쓰면 어떤 책인지만 알 수 있고 userid까지 같이 써야 누구 장바구니의 어떤 책인지를 정확히 지정할 수 있어서 userid + isbn 로수정
+	public int delete(String userid, int isbn) {
+	    String sql = "DELETE FROM cart WHERE userid = ? AND isbn = ?";
+	    try (PreparedStatement ps = conn.prepareStatement(sql)) {
+	        ps.setString(1, userid);
+	        ps.setInt(2, isbn);
+	        return ps.executeUpdate();
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	    return 0;
 	}
 }

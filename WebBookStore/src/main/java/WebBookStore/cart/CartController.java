@@ -53,10 +53,14 @@ public class CartController {
 		return "layout/layout";
 	}
 	
-	@RequestMapping("/delete")
-	public String delete(@RequestParam("isbn") int isbn) { // id 대신 isbn으로 명시
-		cartService.deleteBook(isbn);
-		return "redirect:/cart/list";
+	@RequestMapping(value="/delete", method=RequestMethod.POST)
+	public String delete(@RequestParam("isbn") int isbn, HttpSession session) {
+	    String userid = (String) session.getAttribute("loginUser");
+	    if (userid == null) {
+	        return "redirect:/member/login";
+	    }
+	    cartService.deleteBook(userid, isbn);
+	    return "redirect:/cart/list";
 	}
 	
 }

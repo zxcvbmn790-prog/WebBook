@@ -32,15 +32,14 @@
 
 									<td style="font-weight: 500;">${cart.totalPrice}원</td>
 
+							
 									<td>
-									<!-- <button type="button" class="btn btn-back"
-											style="padding: 6px 12px; font-size: 11px;" onclick="/cart/delete">삭제</button> -->
-									<a href="/cart/delete?isbn=$s{cart.isbn}" 
-   										class="btn btn-back" 
-   										onclick="removeCartItem(event, '${cart.isbn}')">
-   										${cart.isbn}
-   										삭제
-									</a>
+									<form action="${pageContext.request.contextPath}/cart/delete" method="post" style="display:inline;">
+										<input type="hidden" name="isbn" value="${cart.isbn}">
+										<button type="submit" class="btn btn-back" style="padding: 6px 12px; font-size: 11px;">
+											삭제
+										</button>
+									</form>
 									</td>
 								</tr>
 							</c:forEach>
