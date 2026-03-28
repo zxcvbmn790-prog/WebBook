@@ -35,7 +35,7 @@
 									<td>
 									<!-- <button type="button" class="btn btn-back"
 											style="padding: 6px 12px; font-size: 11px;" onclick="/cart/delete">삭제</button> -->
-									<a href="/cart/delete?isbn=$s{cart.isbn}" 
+									<a href="/cart/delete?isbn=${cart.isbn}" 
    										class="btn btn-back" 
    										onclick="removeCartItem(event, '${cart.isbn}')">
    										${cart.isbn}
