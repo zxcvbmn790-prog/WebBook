@@ -1,99 +1,82 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-		<div class="cart-container">
-			<div style="font-family: 'DM Serif Display', serif; font-size: 28px; margin-bottom: 20px;">장바구니</div>
+<section class="cart-page">
+    <div class="section-head">
+        <span class="section-badge">CART</span>
+        <h2>장바구니</h2>
+        <p>담아둔 도서를 확인하고 수량을 조정할 수 있어.</p>
+    </div>
 
-			<c:choose>
-				<c:when test="${not empty cartList}">
-					<table class="cart-table">
-						<thead>
-							<tr>
-								<th>도서 정보</th>
-								<th>단가</th>
-								<th>수량</th>
-								<th>합계</th>
-								<th>삭제</th>
-							</tr>
-						</thead>
-						<tbody>
-							<c:forEach var="cart" items="${cartList}">
-								<tr data-isbn="${cart.isbn}">
-									<td>
-										<div class="cart-book-info">
-											<img src="${cart.image}" class="cart-book-img" alt="표지">
-											<span class="cart-book-title">${cart.bookname}</span>
-										</div>
-									</td>
+    <c:choose>
+        <c:when test="${not empty cartList}">
+            <div class="cart-panel">
+                <table class="cart-table">
+                    <thead>
+                        <tr>
+                            <th>도서 정보</th>
+                            <th>단가</th>
+                            <th>수량</th>
+                            <th>합계</th>
+                            <th>삭제</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <c:forEach var="cart" items="${cartList}">
+                            <tr>
+                                <td>
+                                    <div class="cart-book-info">
+                                        <img src="${cart.image}" class="cart-book-img" alt="${cart.bookname}">
+                                        <div>
+                                            <div class="cart-book-title">${cart.bookname}</div>
+                                            <div class="cart-book-sub">ISBN ${cart.isbn}</div>
+                                        </div>
+                                    </div>
+                                </td>
 
-									<td>${cart.price}원</td>
+                                <td>${cart.price}원</td>
 
-									<td>${cart.amount}권</td>
+                                <td>
+                                    <form action="${pageContext.request.contextPath}/cart/update" method="post" class="qty-update-form">
+                                        <input type="hidden" name="isbn" value="${cart.isbn}">
+                                        <input type="number" name="amount" value="${cart.amount}" min="1" class="qty-input">
+                                        <button type="submit" class="small-btn">변경</button>
+                                    </form>
+                                </td>
 
-									<td style="font-weight: 500;">${cart.totalPrice}원</td>
+                                <td class="strong">${cart.totalPrice}원</td>
 
-							
-									<td>
-									<form action="${pageContext.request.contextPath}/cart/delete" method="post" style="display:inline;">
-										<input type="hidden" name="isbn" value="${cart.isbn}">
-										<button type="submit" class="btn btn-back" style="padding: 6px 12px; font-size: 11px;">
-											삭제
-										</button>
-									</form>
-									</td>
-								</tr>
-							</c:forEach>
-						</tbody>
-					</table>
+                                <td>
+                                    <form action="${pageContext.request.contextPath}/cart/delete" method="post">
+                                        <input type="hidden" name="isbn" value="${cart.isbn}">
+                                        <button type="submit" class="small-btn danger">삭제</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        </c:forEach>
+                    </tbody>
+                </table>
 
-					<div class="cart-summary">
-						총 결제 금액 : ${sumMoney} 원
-					</div>
+                <div class="cart-summary">
+                    <div class="summary-card">
+                        <span>총 결제 금액</span>
+                        <strong>${sumMoney}원</strong>
+                    </div>
+                </div>
 
-					<div
-						style="text-align: center; margin-top: 40px; display: flex; justify-content: center; gap: 10px;">
-						<a href="${pageContext.request.contextPath}/book/list" class="btn btn-back">쇼핑 계속하기</a>
-						<a href="#" class="btn btn-buy" style="padding: 13px 40px;">결제하기</a>
-					</div>
-				</c:when>
+                <div class="cart-actions">
+                    <a href="${pageContext.request.contextPath}/book/list" class="action-btn outline">쇼핑 계속하기</a>
+                    <a href="#" class="action-btn dark">결제하기</a>
+                </div>
+            </div>
+        </c:when>
 
-				<c:otherwise>
-					<div class="empty" style="padding: 60px 0;">장바구니가 비어 있습니다.</div>
-					<div style="text-align: center;">
-						<a href="${pageContext.request.contextPath}/book/list" class="btn btn-buy">도서 담으러 가기</a>
-					</div>
-				</c:otherwise>
-			</c:choose>
-		</div>
-		
-		<script>
-function removeCartItem(event, cart.isbn) {
-  event.preventDefault(); // 페이지 이동 막기
-
-  // 1. 화면에서 제거
-  const row = document.querySelector(`tr[data-isbn='${cart.isbn}']`);
-  if (row) {
-    row.remove();
-  }
-
-  // 2. 서버에도 삭제 요청 (선택)
-  fetch(`/cart/delete?isbn=${cart.isbn}`, {
-    method: 'GET'
-  });
-
-  // 3. 장바구니 비었는지 체크
-  const remainingRows = document.querySelectorAll(".cart-table tbody tr");
-  if (remainingRows.length === 0) {
-    document.querySelector(".cart-container").innerHTML = `
-      <div class="empty" style="padding: 60px 0;">
-        장바구니가 비어 있습니다.
-      </div>
-      <div style="text-align: center;">
-        <a href="${pageContext.request.contextPath}/book/list" class="btn btn-buy">
-          도서 담으러 가기
-        </a>
-      </div>
-    `;
-  }
-}
-</script>
+        <c:otherwise>
+            <div class="empty-box">
+                <h3>장바구니가 비어 있습니다.</h3>
+                <p>관심 있는 도서를 먼저 담아보자.</p>
+                <a href="${pageContext.request.contextPath}/book/list" class="action-btn dark">도서 담으러 가기</a>
+            </div>
+        </c:otherwise>
+    </c:choose>
+</section>

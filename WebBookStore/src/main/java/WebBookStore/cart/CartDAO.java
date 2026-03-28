@@ -88,6 +88,18 @@ public class CartDAO {
 			e.printStackTrace();
 		}
 	}
+	
+	public void updateAmount(CartVO cartVO) {
+	    String sql = "UPDATE cart SET amount = ? WHERE userid = ? AND isbn = ?";
+	    try (PreparedStatement ps = conn.prepareStatement(sql)) {
+	        ps.setInt(1, cartVO.getAmount());
+	        ps.setString(2, cartVO.getUserid());
+	        ps.setInt(3, cartVO.getIsbn());
+	        ps.executeUpdate();
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	}
 
 	// isbn만 쓰면 어떤 책인지만 알 수 있고 userid까지 같이 써야 누구 장바구니의 어떤 책인지를 정확히 지정할 수 있어서 userid + isbn 로수정
 	public int delete(String userid, int isbn) {

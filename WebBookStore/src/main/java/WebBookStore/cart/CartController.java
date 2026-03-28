@@ -53,6 +53,31 @@ public class CartController {
 		return "layout/layout";
 	}
 	
+	@RequestMapping(value="/update", method=RequestMethod.POST)
+	public String update(@RequestParam("isbn") int isbn,
+	                     @RequestParam("amount") int amount,
+	                     HttpSession session) {
+
+	    String userid = (String) session.getAttribute("loginUser");
+
+	    if (userid == null) {
+	        return "redirect:/member/login";
+	    }
+
+	    if (amount < 1) {
+	        amount = 1;
+	    }
+
+	    CartVO cartVO = new CartVO();
+	    cartVO.setUserid(userid);
+	    cartVO.setIsbn(isbn);
+	    cartVO.setAmount(amount);
+
+	    cartService.updateAmount(cartVO);
+
+	    return "redirect:/cart/list";
+	}
+	
 	@RequestMapping(value="/delete", method=RequestMethod.POST)
 	public String delete(@RequestParam("isbn") int isbn, HttpSession session) {
 	    String userid = (String) session.getAttribute("loginUser");

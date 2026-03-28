@@ -31,6 +31,10 @@ public class CartService {
 		}
 	}
 
+	public void updateAmount(CartVO cartVO) {
+	    cartDao.updateAmount(cartVO);
+	}
+	
 	public int deleteBook(String userid, int isbn) {
 	    return cartDao.delete(userid, isbn);
 	}
