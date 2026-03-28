@@ -14,10 +14,11 @@ import lombok.ToString;
 @Setter
 @ToString
 public class BookVO {
-    private int isbn;
-    private String bookname;
-    private String author;
-    private String publisher;
-    private String image;
-    private String price;
+ private int isbn;
+ private String bookname;
+ private String author;
+ private String publisher;
+ private String image;
+ private String price;
+ private String category;
 }

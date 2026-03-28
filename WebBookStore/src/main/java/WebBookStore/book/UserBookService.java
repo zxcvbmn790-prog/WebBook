@@ -17,4 +17,12 @@ public class UserBookService {
 	public BookVO getBook(int isbn) {
 		return dao.findByIsbn(isbn);
 	}
+
+	public List<BookVO> getBookListByPage(String category, int offset, int limit, boolean viewAll) {
+		return dao.findByCategoryAndPage(category, offset, limit, viewAll);
+	}
+
+	public int getTotalCount(String category) {
+		return dao.countByCategory(category);
+	}
 }
