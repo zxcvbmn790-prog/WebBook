@@ -128,4 +128,34 @@ public class UserBookDAO {
 		}
 		return null;
 	}
+
+	// UserBookDAO.java의 findTopNByCategory 메서드 수정
+	public List<BookVO> findTopNByCategory(String category, int limit) {
+		List<BookVO> list = new ArrayList<>();
+
+		// LIKE를 사용하여 앞뒤 공백이나 미세한 차이를 허용해 봅니다.
+		String sql = "SELECT * FROM book WHERE category LIKE ? ORDER BY isbn LIMIT ?";
+
+		try (PreparedStatement ps = conn.prepareStatement(sql)) {
+			ps.setString(1, "%" + category + "%");// 카테고리 이름을 포함하는 데이터 찾기
+			ps.setInt(2, limit);
+
+			try (ResultSet rs = ps.executeQuery()) {
+				while (rs.next()) {
+					list.add(new BookVO(rs.getInt("isbn"), rs.getString("bookname"), rs.getString("author"),
+							rs.getString("publisher"), rs.getString("image"), rs.getString("price"),
+							rs.getString("category")));
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		// 리스트가 비어있다면 콘솔에 어떤 카테고리를 조회했는지 출력해 보세요.
+		if (list.isEmpty()) {
+			System.out.println("[DEBUG] " + category + " 카테고리에 데이터가 없습니다.");
+		}
+
+		return list;
+	}
 }

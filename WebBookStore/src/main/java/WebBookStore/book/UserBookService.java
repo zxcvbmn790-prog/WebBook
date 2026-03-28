@@ -25,4 +25,8 @@ public class UserBookService {
 	public int getTotalCount(String category) {
 		return dao.countByCategory(category);
 	}
+
+	public List<BookVO> getTopBooksByCategory(String category) {
+		return dao.findTopNByCategory(category, 4);
+	}
 }

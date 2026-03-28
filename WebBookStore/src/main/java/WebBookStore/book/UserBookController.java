@@ -22,33 +22,50 @@ public class UserBookController {
 			@RequestParam(value = "page", defaultValue = "1") int page,
 			@RequestParam(value = "viewAll", defaultValue = "false") boolean viewAll, Model model) {
 
-		int limit = 4;
-		int offset = (page - 1) * limit;
+		// 수정된 조건: 카테고리가 '전체'이고, 페이지가 1페이지이며, '전체보기' 모드가 아닐 때만 메인 섹션 노출
+		if ("전체".equals(category) && page == 1 && !viewAll) {
+			// 실제 데이터에 포함된 카테고리 명칭으로 변경
+			model.addAttribute("itBooks", bookService.getTopBooksByCategory("인공지능"));
+			model.addAttribute("novelBooks", bookService.getTopBooksByCategory("초보자를 위한 컴퓨터 책"));
+			model.addAttribute("economyBooks", bookService.getTopBooksByCategory("경영전략/혁신"));
+			model.addAttribute("examBooks", bookService.getTopBooksByCategory("인공지능/빅데이터"));
+			model.addAttribute("liberalBooks", bookService.getTopBooksByCategory("컴퓨터공학/전산학 개론"));
+			model.addAttribute("isMain", true);
+		} else {
+			int limit = 4;
+			int offset = (page - 1) * limit;
 
-		List<BookVO> list = bookService.getBookListByPage(category, offset, limit, viewAll);
-		int totalCount = bookService.getTotalCount(category);
+			List<BookVO> list = bookService.getBookListByPage(category, offset, limit, viewAll);
+			int totalCount = bookService.getTotalCount(category);
+			int totalPages = (int) Math.ceil((double) totalCount / limit);
 
-		boolean hasNext = (page * limit) < totalCount;
+			// ★ 추가: 페이징 블록 계산 (5개씩 끊기)
+			int blockLimit = 5;
+			int startPage = (((int) Math.ceil((double) page / blockLimit)) - 1) * blockLimit + 1;
+			int endPage = startPage + blockLimit - 1;
+			if (endPage > totalPages)
+				endPage = totalPages;
 
-		// JSP로 넘길 데이터들
-		model.addAttribute("list", list);
+			model.addAttribute("list", list);
+			model.addAttribute("totalPages", totalPages);
+			model.addAttribute("startPage", startPage); // 블록 시작 (예: 1, 6, 11...)
+			model.addAttribute("endPage", endPage); // 블록 끝 (예: 5, 10, 15...)
+			model.addAttribute("hasNext", (page * limit) < totalCount);
+			model.addAttribute("isMain", false);
+		}
 		model.addAttribute("category", category);
 		model.addAttribute("currentPage", page);
-		model.addAttribute("hasNext", hasNext);
 		model.addAttribute("viewAll", viewAll);
-
 		model.addAttribute("contentPage", "/WEB-INF/views/book/views.jsp");
+
 		return "layout/layout";
 	}
 
-	@RequestMapping(value = "/view", method = RequestMethod.GET)
+	@RequestMapping(value = "/view", method = RequestMethod.GET) // 메서드 수준 매핑
 	public String view(@RequestParam("isbn") int isbn, Model model) {
-		// 선택한 책의 정보를 DB에서 가져와서 "book"이라는 이름으로 화면에 넘김
 		model.addAttribute("book", bookService.getBook(isbn));
-
-		// 알맹이 화면으로 view.jsp를 지정
 		model.addAttribute("contentPage", "/WEB-INF/views/book/view.jsp");
-
 		return "layout/layout";
 	}
+
 }
