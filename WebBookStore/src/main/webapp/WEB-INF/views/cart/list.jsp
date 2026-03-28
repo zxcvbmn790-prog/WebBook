@@ -66,7 +66,7 @@
 
                 <div class="cart-actions">
                     <a href="${pageContext.request.contextPath}/book/list" class="action-btn outline">쇼핑 계속하기</a>
-                    <a href="#" class="action-btn dark">결제하기</a>
+                    <a href="${pageContext.request.contextPath}/order/checkout" class="action-btn dark">결제하기</a>
                 </div>
             </div>
         </c:when>

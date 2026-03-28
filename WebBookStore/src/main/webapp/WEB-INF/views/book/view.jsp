@@ -57,19 +57,18 @@
 
                         <c:otherwise>
                             <form action="${pageContext.request.contextPath}/cart/insert" method="post" class="detail-form">
-                                <input type="hidden" name="isbn" value="${book.isbn}">
-                                <input type="hidden" name="userid" value="${sessionScope.loginUser}">
-
-                                <div class="qty-box">
-                                    <label for="amount">수량</label>
-                                    <input type="number" id="amount" name="amount" value="1" min="1">
-                                </div>
-
-                                <div class="detail-actions">
-                                    <a href="${pageContext.request.contextPath}/book/list" class="action-btn outline">목록으로</a>
-                                    <button type="submit" class="action-btn soft">장바구니 담기</button>
-                                </div>
-                            </form>
+							    <input type="hidden" name="isbn" value="${book.isbn}">
+							
+							    <div class="qty-box">
+							        <label for="amount">수량</label>
+							        <input type="number" id="amount" name="amount" value="1" min="1">
+							    </div>
+							
+							    <div class="detail-actions">
+							        <a href="${pageContext.request.contextPath}/book/list" class="action-btn outline">목록으로</a>
+							        <button type="submit" class="action-btn soft">장바구니 담기</button>
+							    </div>
+							</form>
                         </c:otherwise>
                     </c:choose>
                 </div>

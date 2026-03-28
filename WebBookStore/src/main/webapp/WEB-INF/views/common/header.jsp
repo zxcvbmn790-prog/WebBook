@@ -9,8 +9,9 @@
             <a href="${pageContext.request.contextPath}/book/list">도서목록</a>
 
             <c:if test="${not empty sessionScope.loginUser and sessionScope.loginUser ne 'admin'}">
-                <a href="${pageContext.request.contextPath}/cart/list">장바구니</a>
-            </c:if>
+			    <a href="${pageContext.request.contextPath}/cart/list">장바구니</a>
+			    <a href="${pageContext.request.contextPath}/order/list">주문내역</a>
+			</c:if>
 
             <c:if test="${sessionScope.loginUser eq 'admin'}">
                 <a href="${pageContext.request.contextPath}/admin/insertform">도서등록</a>

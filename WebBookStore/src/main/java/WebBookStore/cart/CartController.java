@@ -21,11 +21,24 @@ public class CartController {
 
 
 	@RequestMapping(value = "/insert", method = RequestMethod.POST)
-	public String insert(@ModelAttribute CartVO cartVO) {
+	public String insert(@RequestParam("isbn") int isbn,
+	                     @RequestParam("amount") int amount,
+	                     HttpSession session) {
 
-		if (cartVO.getUserid() == null || cartVO.getUserid().isEmpty()) {
+		String userid = (String) session.getAttribute("loginUser");
+
+		if (userid == null) {
 			return "redirect:/member/login";
 		}
+
+		if (amount < 1) {
+			amount = 1;
+		}
+
+		CartVO cartVO = new CartVO();
+		cartVO.setUserid(userid);
+		cartVO.setIsbn(isbn);
+		cartVO.setAmount(amount);
 
 		cartService.insertOrUpdateCart(cartVO);
 
