@@ -3,9 +3,12 @@ package WebBookStore.member;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import WebBookStore.book.BookVO;
 
 @Repository
 public class MemberDAOH2 implements MemberDAO {
@@ -55,4 +58,28 @@ public class MemberDAOH2 implements MemberDAO {
 		}
 		return 0;
 	}
+
+
+
+	@Override
+	public int update(MemberVO member) {
+		String sql = "UPDATE member SET id=?, pw=?, hp=?, email=?, nickname=? WHERE id=?";
+		try {
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, member.getUsername());
+			ps.setString(2, member.getPassword());
+			ps.setString(3, member.getPhone());
+			ps.setString(4, member.getEmail());
+			ps.setString(5, member.getNickname());
+			ps.setString(6, member.getUsername());
+			int result = ps.executeUpdate();
+			ps.close();
+			return result;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return 0;
+		}
+	}
+	
+
 }
