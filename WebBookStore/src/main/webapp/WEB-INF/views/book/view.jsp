@@ -68,7 +68,6 @@
                                 <div class="detail-actions">
                                     <a href="${pageContext.request.contextPath}/book/list" class="action-btn outline">목록으로</a>
                                     <button type="submit" class="action-btn soft">장바구니 담기</button>
-                                    <button type="button" class="action-btn dark">바로구매</button>
                                 </div>
                             </form>
                         </c:otherwise>
