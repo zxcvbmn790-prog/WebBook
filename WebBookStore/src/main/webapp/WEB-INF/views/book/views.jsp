@@ -1,75 +1,81 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+	<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
-<section class="hero-section">
-    <div class="hero-text">
-        <span class="hero-badge">2026 SPRING COLLECTION</span>
-        <h1>지금 가장 눈에 띄는 도서들을 만나보세요</h1>
-        <p>베스트셀러부터 추천 도서까지, 감각적인 온라인 서점 경험을 구성합니다.</p>
-    </div>
-</section>
+		<div style="text-align: center; margin-bottom: 30px;">
+			<%-- 현재 선택된 카테고리가 무엇인지 표시해주면 좋습니다 --%>
+				<h3>현재 카테고리 : <b>${category}</b></h3>
+				<br>
 
-<section class="catalog-toolbar">
-    <form action="${pageContext.request.contextPath}/book/list" method="get" class="modern-search">
-        <select name="searchType" class="search-select">
-            <option value="title" ${param.searchType eq 'title' || empty param.searchType ? 'selected="selected"' : ''}>도서명</option>
-            <option value="author" ${param.searchType eq 'author' ? 'selected="selected"' : ''}>저자</option>
-        </select>
+				<%-- 카테고리 버튼들 (새 CSV에 있는 카테고리명으로 수정해서 쓰세요!) --%>
+					<button onclick="location.href='${pageContext.request.contextPath}/book/list?category=전체'">전체
+						카테고리</button>
+					<button
+						onclick="location.href='${pageContext.request.contextPath}/book/list?category=IT/컴퓨터'">IT/컴퓨터</button>
+					<button
+						onclick="location.href='${pageContext.request.contextPath}/book/list?category=소설/에세이'">소설/에세이</button>
+					<button
+						onclick="location.href='${pageContext.request.contextPath}/book/list?category=경제/경영'">경제/경영</button>
+					<button
+						onclick="location.href='${pageContext.request.contextPath}/book/list?category=수험서/외국어'">수험서/외국어</button>
+					<button
+						onclick="location.href='${pageContext.request.contextPath}/book/list?category=일반/교양'">일반/교양</button>
+		</div>
 
-        <input type="text"
-               name="keyword"
-               value="${param.keyword}"
-               class="search-input"
-               placeholder="찾고 싶은 책이나 저자를 검색해보세요">
 
-        <button type="submit" class="btn-search">검색</button>
-    </form>
-</section>
+		<div class="book-list-container" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px;">
 
-<section class="catalog-section">
-    <c:choose>
-        <c:when test="${not empty list}">
-            <div class="modern-grid">
-                <c:forEach var="book" items="${list}">
-                    <div class="modern-card">
-                        <a href="${pageContext.request.contextPath}/book/view?isbn=${book.isbn}" class="card-link">
-                            <div class="modern-img">
-                                <c:choose>
-                                    <c:when test="${not empty book.image}">
-                                        <img src="${book.image}" alt="${book.bookname}">
-                                    </c:when>
-                                    <c:otherwise>
-                                        <div class="no-img">NO IMAGE</div>
-                                    </c:otherwise>
-                                </c:choose>
-                            </div>
+			<c:forEach var="book" items="${list}">
+				<div class="book-card" style="border: 1px solid #ccc; padding: 10px; width: 200px; text-align: center;">
+					<a href="${pageContext.request.contextPath}/book/view?isbn=${book.isbn}">
+						<img src="${book.image}" alt="${book.bookname}" style="width: 100%; height: auto;">
+					</a>
+					<h5 style="margin-top: 10px;">${book.bookname}</h5>
+					<p style="color: gray; font-size: 12px;">${book.category} | ${book.author}</p>
+					<p><b>${book.price}원</b></p>
+				</div>
+			</c:forEach>
 
-                            <div class="card-info">
-                                <div class="card-title">${book.bookname}</div>
-                                <div class="card-author">${book.author} · ${book.publisher}</div>
-                                <div class="card-price">
-                                    <c:choose>
-                                        <c:when test="${not empty book.price}">${book.price}원</c:when>
-                                        <c:otherwise>가격 미정</c:otherwise>
-                                    </c:choose>
-                                </div>
-                            </div>
-                        </a>
+		</div>
+		<div style="text-align: center; margin-top: 40px; margin-bottom: 50px;">
+			<c:choose>
+				<%-- (A) 전체 보기 상태일 때는 '접기' 버튼만 노출 --%>
+					<c:when test="${viewAll}">
+						<button
+							onclick="location.href='${pageContext.request.contextPath}/book/list?category=${category}&page=1&viewAll=false'"
+							style="padding: 10px 20px; font-weight: bold;">
+							접기 (4개씩 보기)
+						</button>
+					</c:when>
 
-                        <div class="card-actions">
-                            <a href="${pageContext.request.contextPath}/book/view?isbn=${book.isbn}" class="mini-btn light">상세보기</a>
-                            <a href="${pageContext.request.contextPath}/book/view?isbn=${book.isbn}" class="mini-btn dark">담으러 가기</a>
-                        </div>
-                    </div>
-                </c:forEach>
-            </div>
-        </c:when>
+					<%-- (B) 4개씩 보기 상태일 때 --%>
+						<c:otherwise>
+							<%-- 이전 버튼 (1페이지가 아닐 때만 노출) --%>
+								<c:if test="${currentPage > 1}">
+									<button
+										onclick="location.href='${pageContext.request.contextPath}/book/list?category=${category}&page=${currentPage - 1}'"
+										style="padding: 10px 20px;">
+										◀ 이전
+									</button>
+								</c:if>
 
-        <c:otherwise>
-            <div class="empty-box">
-                <h3>등록된 도서가 없습니다.</h3>
-                <p>초기 데이터 자동 등록을 붙이면 이 화면이 바로 채워지게 만들 수 있어.</p>
-            </div>
-        </c:otherwise>
-    </c:choose>
-</section>
+								<%-- 페이지 번호 표시 (선택사항) --%>
+									<span style="margin: 0 15px; font-size: 18px;"><b>${currentPage}</b> 페이지</span>
+
+									<%-- 다음 버튼 (다음 데이터가 있을 때만 노출) --%>
+										<c:if test="${hasNext}">
+											<button
+												onclick="location.href='${pageContext.request.contextPath}/book/list?category=${category}&page=${currentPage + 1}'"
+												style="padding: 10px 20px;">
+												다음 ▶
+											</button>
+										</c:if>
+
+										<%-- 전체보기 버튼 --%>
+											<button
+												onclick="location.href='${pageContext.request.contextPath}/book/list?category=${category}&viewAll=true'"
+												style="padding: 10px 20px; margin-left: 20px; background-color: #eee;">
+												전체 보기
+											</button>
+						</c:otherwise>
+			</c:choose>
+		</div>
