@@ -9,6 +9,10 @@ target/
 .settings/
 .springBeans
 
+# Java build output
+bin/
+out/
+
 # IntelliJ (혹시 다른 IDE도 쓸 경우)
 .idea/
 *.iml
