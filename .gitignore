@@ -1,0 +1,54 @@
+# Maven
+target/
+!.mvn/wrapper/maven-wrapper.jar
+
+# Eclipse / STS
+.project
+.classpath
+.factorypath
+.settings/
+.springBeans
+
+# Java build output
+bin/
+out/
+
+# IntelliJ (optional)
+.idea/
+*.iml
+
+# VS Code
+.vscode/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.swp
+
+# Java compiled files
+*.class
+
+# Packaged files
+*.jar
+*.war
+*.ear
+
+# Maven wrapper backup / misc
+.mvn/timing.properties
+
+# Node (optional)
+node_modules/
+
+# Environment files
+.env
+.env.*
+
+# Upload / generated local files (uncomment if needed)
+# upload/
+# uploads/
