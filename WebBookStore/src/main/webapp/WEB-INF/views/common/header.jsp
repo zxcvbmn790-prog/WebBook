@@ -30,7 +30,19 @@
 
 						<span style="font-size: 13px; color: var(--text);"><b>${sessionScope.loginUser}</b>님
 							환영합니다!</span>
-						<a href="${pageContext.request.contextPath}/member/logout">로그아웃</a>
+						<%-- <a href="${pageContext.request.contextPath}/member/logout">로그아웃</a> --%>
+						<!-- 사용자 메뉴 -->
+        <div class="user-menu">
+            <span style="font-size: 13px; color: var(--text);" onclick="toggleMenu()" class="user-name">
+                ${sessionScope.loginUser} 님 ▼
+            </span>
+
+            <div id="dropdown" class="dropdown">
+                <a href="/member/info">내 정보 수정</a>
+                <a href="/user/address">주소 추가</a>
+                <a href="${pageContext.request.contextPath}/member/logout">로그아웃</a>
+            </div>
+        </div>
 
 					</c:when>
 
@@ -39,3 +51,17 @@
 						</c:otherwise>
 			</c:choose>
 		</nav>
+							
+        <script>
+    function toggleMenu() {
+        const menu = document.getElementById("dropdown");
+        menu.style.display = (menu.style.display === "block") ? "none" : "block";
+    }
+
+    // 바깥 클릭 시 닫기
+    window.onclick = function(e) {
+        if (!e.target.matches('.user-name')) {
+            document.getElementById("dropdown").style.display = "none";
+        }
+    }
+</script>

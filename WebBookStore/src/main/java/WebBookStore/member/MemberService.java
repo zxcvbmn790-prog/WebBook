@@ -17,4 +17,11 @@ public class MemberService {
 		int result = dao.register(mv);
 		return result > 0;
 	}
+
+
+
+	public boolean updateMember(MemberVO member) {
+		
+		return dao.update(member)>0 ? true : false;
+	}
 }
