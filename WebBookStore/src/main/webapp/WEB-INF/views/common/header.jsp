@@ -15,7 +15,7 @@
 
             <c:if test="${sessionScope.loginUser eq 'admin'}">
                 <a href="${pageContext.request.contextPath}/admin/insertform">도서등록</a>
-                <a href="#">판매통계</a>
+                <a href="${pageContext.request.contextPath}/admin/sales">판매통계</a>
                 <a href="#">고객관리</a>
                 <a href="${pageContext.request.contextPath}/chat/admin">실시간상담</a>
             </c:if>

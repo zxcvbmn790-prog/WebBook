@@ -40,4 +40,15 @@ public class AdminService {
         return dao.findById(isbn);
     }
 
+    public SalesSummaryVO getSalesSummary() {
+        return dao.getSalesSummary();
+    }
+
+    public List<DailySalesVO> getDailySalesList() {
+        return dao.getDailySalesList();
+    }
+
+    public List<BookSalesVO> getTopBookSalesList() {
+        return dao.getTopBookSalesList();
+    }
 }

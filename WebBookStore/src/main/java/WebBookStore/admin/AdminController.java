@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpSession;
+
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
@@ -48,5 +50,21 @@ public class AdminController {
 	public String delete(@RequestParam("isbn") int isbn) { // id 대신 isbn으로 명시
 		adminService.deleteBook(isbn);
 		return "redirect:/book/list";
+	}
+	
+	@RequestMapping("/sales")
+	public String sales(HttpSession session, Model model) {
+	    String loginUser = (String) session.getAttribute("loginUser");
+
+	    if (!"admin".equals(loginUser)) {
+	        return "redirect:/book/list";
+	    }
+
+	    model.addAttribute("summary", adminService.getSalesSummary());
+	    model.addAttribute("dailySalesList", adminService.getDailySalesList());
+	    model.addAttribute("topBookList", adminService.getTopBookSalesList());
+	    model.addAttribute("contentPage", "/WEB-INF/views/admin/sales_stats.jsp");
+
+	    return "layout/layout";
 	}
 }

@@ -122,4 +122,109 @@ public class AdminDAO {
 			return null;
 		}
 	}
+	
+	// 판매 요약
+	public SalesSummaryVO getSalesSummary() {
+	    String sql = "SELECT "
+	            + "COALESCE(SUM(total_price), 0) AS total_sales, "
+	            + "COUNT(*) AS total_orders, "
+	            + "COALESCE(SUM(amount), 0) AS total_quantity, "
+	            + "COALESCE(SUM(CASE "
+	            + "WHEN FORMATDATETIME(order_date, 'yyyy-MM-dd') = FORMATDATETIME(CURRENT_TIMESTAMP, 'yyyy-MM-dd') "
+	            + "THEN total_price ELSE 0 END), 0) AS today_sales "
+	            + "FROM orders";
+
+	    try {
+	        PreparedStatement ps = conn.prepareStatement(sql);
+	        ResultSet rs = ps.executeQuery();
+
+	        if (rs.next()) {
+	            SalesSummaryVO summary = new SalesSummaryVO();
+	            summary.setTotalSales(rs.getInt("total_sales"));
+	            summary.setTotalOrders(rs.getInt("total_orders"));
+	            summary.setTotalQuantity(rs.getInt("total_quantity"));
+	            summary.setTodaySales(rs.getInt("today_sales"));
+
+	            rs.close();
+	            ps.close();
+	            return summary;
+	        }
+
+	        rs.close();
+	        ps.close();
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+
+	    return new SalesSummaryVO(0, 0, 0, 0);
+	}
+	
+	// 최근 7일 일자별 매출
+	public List<DailySalesVO> getDailySalesList() {
+	    String sql = "SELECT "
+	            + "FORMATDATETIME(order_date, 'yyyy-MM-dd') AS order_day, "
+	            + "COALESCE(SUM(total_price), 0) AS sales_amount, "
+	            + "COUNT(*) AS order_count "
+	            + "FROM orders "
+	            + "GROUP BY FORMATDATETIME(order_date, 'yyyy-MM-dd') "
+	            + "ORDER BY order_day DESC "
+	            + "LIMIT 7";
+
+	    List<DailySalesVO> list = new ArrayList<>();
+
+	    try {
+	        PreparedStatement ps = conn.prepareStatement(sql);
+	        ResultSet rs = ps.executeQuery();
+
+	        while (rs.next()) {
+	            DailySalesVO vo = new DailySalesVO();
+	            vo.setOrderDay(rs.getString("order_day"));
+	            vo.setSalesAmount(rs.getInt("sales_amount"));
+	            vo.setOrderCount(rs.getInt("order_count"));
+	            list.add(vo);
+	        }
+
+	        rs.close();
+	        ps.close();
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+
+	    return list;
+	}
+	
+	// 많이 팔린 책 TOP 5
+	public List<BookSalesVO> getTopBookSalesList() {
+	    String sql = "SELECT "
+	            + "isbn, bookname, "
+	            + "COALESCE(SUM(amount), 0) AS total_quantity, "
+	            + "COALESCE(SUM(total_price), 0) AS total_sales "
+	            + "FROM orders "
+	            + "GROUP BY isbn, bookname "
+	            + "ORDER BY total_quantity DESC, total_sales DESC "
+	            + "LIMIT 5";
+
+	    List<BookSalesVO> list = new ArrayList<>();
+
+	    try {
+	        PreparedStatement ps = conn.prepareStatement(sql);
+	        ResultSet rs = ps.executeQuery();
+
+	        while (rs.next()) {
+	            BookSalesVO vo = new BookSalesVO();
+	            vo.setIsbn(rs.getInt("isbn"));
+	            vo.setBookname(rs.getString("bookname"));
+	            vo.setTotalQuantity(rs.getInt("total_quantity"));
+	            vo.setTotalSales(rs.getInt("total_sales"));
+	            list.add(vo);
+	        }
+
+	        rs.close();
+	        ps.close();
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+
+	    return list;
+	}
 }
