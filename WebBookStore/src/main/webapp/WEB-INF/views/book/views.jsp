@@ -299,17 +299,16 @@
 						src="https://contents.kyobobook.co.kr/display/i_890_380_6974e9e91dd84287880c462e691aa1d7.jpg">
 				</div>
 				<div class="banner-slide fade"><img
-						src="https://contents.kyobobook.co.kr/display/i_890_380_cfdc7bdb3672490293a2daaf673ffafe.jpg">
+						src="https://contents.kyobobook.co.kr/pmtn/2026/event/i_890_380_7581f67c386d4b6596163bf563cbc289.jpg">
 				</div>
 				<div class="banner-slide fade"><img
-						src="https://contents.kyobobook.co.kr/display/i_890_380_646e9cb3bdc847db93f8514f5ac29bab.jpg">
+						src="https://contents.kyobobook.co.kr/advrcntr/IMAC/creatives/2026/03/20/70805/89038003201.png">
 				</div>
 				<a class="prev" onclick="plusSlides(-1)">&#10094;</a>
 				<a class="next" onclick="plusSlides(1)">&#10095;</a>
 			</div>
 
 			<div class="category-section" style="text-align:center;">
-				<h3>현재 카테고리 : <span style="color: #444;">${category}</span></h3>
 				<div class="category-menu">
 					<c:forEach var="cat"
 						items="${['전체', '인공지능', '초보자를 위한 컴퓨터 책', '경영전략/혁신', '인공지능/빅데이터', '컴퓨터공학/전산학 개론']}">
