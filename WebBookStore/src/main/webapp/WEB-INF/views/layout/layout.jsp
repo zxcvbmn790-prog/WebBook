@@ -39,5 +39,25 @@
 			</footer>
 
 		</body>
+		<script>
+			/* layout.jsp 하단 */
+			function directBuy(isbn, amountId) {
+				const loginUser = '${sessionScope.loginUser}';
+
+				let amount = 1;
+				if (amountId) {
+					const qtyInput = document.getElementById(amountId);
+					if (qtyInput) amount = qtyInput.value;
+				}
+
+				if (!loginUser || loginUser === "") {
+					alert("로그인이 필요한 서비스입니다.");
+					location.href = "${pageContext.request.contextPath}/member/login";
+					return;
+				}
+
+				location.href = "${pageContext.request.contextPath}/order/checkout?isbn=" + isbn + "&amount=" + amount + "&buyNow=true";
+			}
+		</script>
 
 		</html>

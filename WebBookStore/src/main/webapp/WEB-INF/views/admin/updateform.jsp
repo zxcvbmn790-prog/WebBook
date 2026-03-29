@@ -2,157 +2,138 @@
 	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 		<style>
-			/* 전체 배경과 정렬 */
+			/* [1] 전체 배경 및 레이아웃 (상세페이지와 통일) */
 			.admin-form-container {
+				padding: 60px 20px;
+				background-color: #f8f9fa;
+				/* 상세페이지의 연한 회색 배경 */
+				min-height: 80vh;
 				display: flex;
 				justify-content: center;
-				align-items: center;
-				padding: 60px 20px;
-				min-height: 80vh;
+				align-items: flex-start;
 			}
 
-			/* 카드 스타일 컨테이너 */
+			/* [2] 둥근 모서리 카드 디자인 (상세페이지 카드 스타일 계승) */
 			.form-card {
 				width: 100%;
-				max-width: 580px;
+				max-width: 750px;
 				background: #ffffff;
 				padding: 50px;
-				border-radius: 16px;
-				box-shadow: 0 20px 40px rgba(0, 0, 0, 0.04);
-				border: 1px solid #f0ece6;
+				border-radius: 20px;
+				/* 상세페이지의 부드러운 둥근 모서리 */
+				box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+				border: none;
 			}
 
-			/* 상단 배지 및 제목 */
+			/* [3] 헤더 및 배지 스타일 */
 			.form-header {
-				text-align: center;
-				margin-bottom: 45px;
+				margin-bottom: 40px;
+				text-align: left;
 			}
 
 			.form-badge {
-				display: inline-block;
-				font-size: 11px;
-				font-weight: 700;
-				letter-spacing: 2px;
+				color: #6366f1;
+				/* 상세페이지 메인 포인트 블루 컬러 */
+				font-size: 13px;
+				font-weight: bold;
+				letter-spacing: 1px;
 				text-transform: uppercase;
-				color: #8a7e74;
-				/* [cite: 85] */
-				background: #f5f0e8;
-				/* [cite: 85] */
-				padding: 7px 16px;
-				border-radius: 50px;
-				margin-bottom: 15px;
+				display: block;
+				margin-bottom: 12px;
 			}
 
 			.form-title {
-				font-family: 'DM Serif Display', serif;
-				/* [cite: 86] */
-				font-size: 32px;
-				color: #2c2520;
-				/* [cite: 86] */
+				font-size: 30px;
+				font-weight: 800;
+				color: #2d3436;
 				margin: 0;
+				letter-spacing: -0.5px;
 			}
 
-			/* 입력 필드 레이아웃 */
+			/* [4] 입력 필드 및 라벨 정돈 */
 			.field-wrap {
-				margin-bottom: 25px;
+				margin-bottom: 22px;
+				text-align: left;
 			}
 
 			.field-label {
 				display: block;
-				font-size: 12px;
-				font-weight: 600;
-				color: #b5aba0;
-				/* [cite: 87] */
-				text-transform: uppercase;
-				letter-spacing: 1px;
+				font-size: 14px;
+				font-weight: 700;
+				color: #2d3436;
 				margin-bottom: 10px;
-				padding-left: 4px;
+				padding-left: 2px;
 			}
 
 			.field-input {
 				width: 100%;
-				padding: 15px 18px;
-				font-family: 'DM Sans', sans-serif;
-				/* [cite: 88] */
-				font-size: 15px;
-				color: #2c2520;
-				/* [cite: 88] */
-				background: #fafafa;
-				border: 1.5px solid #e2d9cc;
-				/* [cite: 88] */
+				padding: 14px 18px;
+				border: 1px solid #dee2e6;
 				border-radius: 10px;
+				font-size: 15px;
+				background-color: #fdfcfb;
 				outline: none;
-				transition: all 0.25s ease;
+				transition: all 0.2s ease;
+				box-sizing: border-box;
 			}
 
-			/* 포커스 효과 */
 			.field-input:focus {
-				border-color: #5c4a3a;
-				/*  */
-				background: #fff;
-				box-shadow: 0 0 0 4px rgba(92, 74, 58, 0.08);
+				border-color: #6366f1;
+				background-color: #fff;
+				box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.08);
 			}
 
-			/* 읽기 전용 필드 (ISBN) */
+			/* 읽기 전용 필드 (상세페이지 메타 정보 느낌) */
 			.field-input[readonly] {
-				background: #f1ede7;
-				/*  */
-				color: #8a7e74;
+				background-color: #f1f3f5;
+				color: #636e72;
 				cursor: not-allowed;
 				border-style: dashed;
 			}
 
-			/* 하단 버튼 그룹 */
+			/* [5] 하단 버튼 그룹 (상세페이지 액션 버튼과 일치) */
 			.form-footer {
 				display: flex;
-				gap: 14px;
-				margin-top: 45px;
-				/*  */
+				gap: 12px;
+				margin-top: 40px;
+				padding-top: 30px;
+				border-top: 1px solid #eee;
 			}
 
 			.btn {
 				flex: 1;
-				height: 56px;
+				height: 50px;
 				display: flex;
 				align-items: center;
 				justify-content: center;
-				font-size: 15px;
-				font-weight: 600;
 				border-radius: 10px;
-				cursor: pointer;
-				transition: all 0.2s;
+				font-size: 15px;
+				font-weight: bold;
 				text-decoration: none;
+				cursor: pointer;
+				border: none;
+				transition: 0.2s;
 			}
 
-			/* 취소 버튼 */
 			.btn-outline {
 				background: #fff;
-				color: #8a7e74;
-				border: 1.5px solid #e2d9cc;
+				color: #2d3436;
+				border: 1px solid #dee2e6;
 			}
 
 			.btn-outline:hover {
-				background: #fcfaf8;
-				border-color: #b5aba0;
-				color: #2c2520;
+				background: #f8f9fa;
+				border-color: #ced4da;
 			}
 
-			/* 확인/저장 버튼 */
 			.btn-primary {
-				background: #2c2520;
-				color: #faf7f2;
-				border: none;
-				box-shadow: 0 4px 15px rgba(44, 37, 32, 0.2);
+				background: #333;
+				color: #fff;
 			}
 
 			.btn-primary:hover {
-				background: #4a3f36;
-				transform: translateY(-2px);
-				box-shadow: 0 8px 20px rgba(44, 37, 32, 0.25);
-			}
-
-			.btn-primary:active {
-				transform: translateY(0);
+				background: #000;
+				transform: translateY(-1px);
 			}
 		</style>
 

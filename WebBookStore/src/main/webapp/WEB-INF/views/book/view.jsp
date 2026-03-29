@@ -64,7 +64,7 @@
 
 										<div class="qty-box">
 											<label for="amount">수량</label>
-											<input type="number" id="amount" name="amount" value="1" min="1">
+												<input type="number" id="amount" name="amount" value="1" min="1">
 										</div>
 
 										<div class="detail-actions">
@@ -72,9 +72,9 @@
 												class="action-btn outline">목록으로</a>
 											<button type="submit" class="action-btn soft">장바구니 담기</button>
 
-											<button type="button" class="action-btn soft"
-												style="background: #333; color: #fff;"
-												onclick="directBuyView('${book.isbn}')">바로구매</button>
+												<button type="button" class="action-btn soft"
+													style="background: #333; color: #fff;"
+													onclick="directBuyView('${book.isbn}')">바로구매</button>
 										</div>
 									</form>
 								</c:otherwise>
@@ -91,19 +91,3 @@
 				</div>
 			</c:otherwise>
 		</c:choose>
-
-		<script>
-			function directBuyView(isbn) {
-				const loginUser = '${sessionScope.loginUser}';
-				const amount = document.getElementById("amount").value; // 입력된 수량 가져오기
-
-				if (!loginUser || loginUser === "") {
-					alert("로그인이 필요한 서비스입니다.");
-					location.href = "${pageContext.request.contextPath}/member/login";
-					return;
-				}
-
-				// isbn, 선택한 수량(amount), 바로구매 플래그(buyNow)를 가지고 이동
-				location.href = "${pageContext.request.contextPath}/order/checkout?isbn=" + isbn + "&amount=" + amount + "&buyNow=true";
-			}
-		</script>

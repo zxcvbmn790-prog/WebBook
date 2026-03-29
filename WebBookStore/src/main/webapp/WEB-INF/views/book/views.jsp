@@ -417,19 +417,21 @@
 									</div>
 									<div class="list-btn-box">
 										<c:choose>
-											<c:when test="${sessionScope.loginUser eq 'admin'}">
-												<a href="${pageContext.request.contextPath}/admin/updateform?isbn=${book.isbn}"
-													class="list-btn edit-btn">도서 수정</a>
-												<a href="${pageContext.request.contextPath}/admin/delete?isbn=${book.isbn}"
-													class="list-btn del-btn" onclick="return confirm('정말 삭제하시겠습니까?')">도서
-													삭제</a>
-											</c:when>
-											<c:otherwise>
-												<button type="button" class="list-btn cart-btn"
-													onclick="addCartAsync('${book.isbn}', '${loginUser}')">장바구니</button>
-												<button class="list-btn buy-btn"
-													onclick="directBuy('${book.isbn}')">바로구매</button>
-											</c:otherwise>
+												<c:when test="${sessionScope.loginUser eq 'admin'}">
+													<a href="${pageContext.request.contextPath}/admin/updateform?isbn=${book.isbn}"
+														class="list-btn cart-btn">도서 수정</a>
+													<a href="${pageContext.request.contextPath}/admin/delete?isbn=${book.isbn}"
+														class="list-btn buy-btn"
+														style="background: #d9534f; border-color: #d9534f;"
+														onclick="return confirm('정말 삭제하시겠습니까?')">도서 삭제</a>
+												</c:when>
+
+													<c:otherwise>
+														<button type="button" class="list-btn cart-btn"
+															onclick="addCartAsync('${book.isbn}', '${loginUser}')">장바구니</button>
+														<button type="button" class="list-btn buy-btn"
+															onclick="directBuy('${book.isbn}')">바로구매</button>
+													</c:otherwise>
 										</c:choose>
 									</div>
 								</div>
