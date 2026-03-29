@@ -64,7 +64,7 @@
 
 										<div class="qty-box">
 											<label for="amount">수량</label>
-												<input type="number" id="amount" name="amount" value="1" min="1">
+											<input type="number" id="amount" name="amount" value="1" min="1">
 										</div>
 
 										<div class="detail-actions">
@@ -72,9 +72,9 @@
 												class="action-btn outline">목록으로</a>
 											<button type="submit" class="action-btn soft">장바구니 담기</button>
 
-												<button type="button" class="action-btn soft"
-													style="background: #333; color: #fff;"
-													onclick="directBuyView('${book.isbn}')">바로구매</button>
+											<button type="button" class="action-btn soft"
+												style="background: #333; color: #fff;"
+												onclick="directBuyView('${book.isbn}')">바로구매</button>
 										</div>
 									</form>
 								</c:otherwise>
@@ -91,3 +91,23 @@
 				</div>
 			</c:otherwise>
 		</c:choose>
+		<script>
+			function directBuyView(isbn) {
+				// [1] 세션에서 로그인 유저 정보 가져오기
+				const loginUser = '${sessionScope.loginUser}';
+
+				// [2] 수량(amount) 입력값 가져오기
+				const amount = document.getElementById("amount").value;
+
+				// [3] 비회원일 경우 로그인 페이지로 유도 (이전 요청사항 반영)
+				if (!loginUser || loginUser === "") {
+					if (confirm("로그인이 필요한 서비스입니다. 로그인 페이지로 이동하시겠습니까?")) {
+						location.href = "${pageContext.request.contextPath}/member/login";
+					}
+					return;
+				}
+
+				// [4] 결제 페이지(checkout)로 직접 이동 (ISBN, 수량, 바로구매 여부 파라미터 전달)
+				location.href = "${pageContext.request.contextPath}/order/checkout?isbn=" + isbn + "&amount=" + amount + "&buyNow=true";
+			}
+		</script>
