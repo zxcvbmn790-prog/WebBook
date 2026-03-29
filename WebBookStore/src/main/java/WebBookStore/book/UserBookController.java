@@ -20,39 +20,44 @@ public class UserBookController {
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public String list(@RequestParam(value = "category", defaultValue = "전체") String category,
 			@RequestParam(value = "page", defaultValue = "1") int page,
-			@RequestParam(value = "viewAll", defaultValue = "false") boolean viewAll, Model model) {
+			@RequestParam(value = "viewAll", defaultValue = "false") boolean viewAll,
+			@RequestParam(value = "keyword", required = false) String keyword, Model model) {
 
-		// 수정된 조건: 카테고리가 '전체'이고, 페이지가 1페이지이며, '전체보기' 모드가 아닐 때만 메인 섹션 노출
-		if ("전체".equals(category) && page == 1 && !viewAll) {
-			// 실제 데이터에 포함된 카테고리 명칭으로 변경
+		// 검색어가 없고, '전체' 카테고리의 1페이지일 때만 메인 화면 노출
+		if ("전체".equals(category) && page == 1 && !viewAll && (keyword == null || keyword.isEmpty())) {
 			model.addAttribute("itBooks", bookService.getTopBooksByCategory("인공지능"));
 			model.addAttribute("novelBooks", bookService.getTopBooksByCategory("초보자를 위한 컴퓨터 책"));
 			model.addAttribute("economyBooks", bookService.getTopBooksByCategory("경영전략/혁신"));
-			model.addAttribute("examBooks", bookService.getTopBooksByCategory("인공지능/빅데이터"));
-			model.addAttribute("liberalBooks", bookService.getTopBooksByCategory("컴퓨터공학/전산학 개론"));
 			model.addAttribute("isMain", true);
 		} else {
 			int limit = 4;
 			int offset = (page - 1) * limit;
 
-			List<BookVO> list = bookService.getBookListByPage(category, offset, limit, viewAll);
-			int totalCount = bookService.getTotalCount(category);
-			int totalPages = (int) Math.ceil((double) totalCount / limit);
+			List<BookVO> list;
+			int totalCount;
 
-			// ★ 추가: 페이징 블록 계산 (5개씩 끊기)
+			// 검색어가 있으면 전체 검색, 없으면 카테고리 페이징 처리
+			if (keyword != null && !keyword.isEmpty()) {
+				list = bookService.getBookList("title", keyword);
+				totalCount = list.size();
+			} else {
+				list = bookService.getBookListByPage(category, offset, limit, viewAll);
+				totalCount = bookService.getTotalCount(category);
+			}
+
+			int totalPages = (int) Math.ceil((double) totalCount / limit);
 			int blockLimit = 5;
 			int startPage = (((int) Math.ceil((double) page / blockLimit)) - 1) * blockLimit + 1;
-			int endPage = startPage + blockLimit - 1;
-			if (endPage > totalPages)
-				endPage = totalPages;
+			int endPage = Math.min(startPage + blockLimit - 1, totalPages);
 
 			model.addAttribute("list", list);
 			model.addAttribute("totalPages", totalPages);
-			model.addAttribute("startPage", startPage); // 블록 시작 (예: 1, 6, 11...)
-			model.addAttribute("endPage", endPage); // 블록 끝 (예: 5, 10, 15...)
-			model.addAttribute("hasNext", (page * limit) < totalCount);
+			model.addAttribute("startPage", startPage);
+			model.addAttribute("endPage", endPage);
 			model.addAttribute("isMain", false);
+			model.addAttribute("keyword", keyword);
 		}
+
 		model.addAttribute("category", category);
 		model.addAttribute("currentPage", page);
 		model.addAttribute("viewAll", viewAll);
