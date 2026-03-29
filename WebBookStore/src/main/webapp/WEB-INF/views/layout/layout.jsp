@@ -30,6 +30,9 @@
         </c:choose>
     </main>
 
+    <!-- 사용자 팝업 채팅 include -->
+    <jsp:include page="/WEB-INF/views/chat/user_chat_popup.jsp" />
+
     <footer class="site-footer">
         <jsp:include page="/WEB-INF/views/common/footer.jsp" />
     </footer>
