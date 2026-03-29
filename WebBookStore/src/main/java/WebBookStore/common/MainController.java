@@ -11,7 +11,6 @@ public class MainController {
 
 	@RequestMapping("")
 	public String index(Model model) {
-		// 💡 무한 루프를 유발하던 코드를 지우고, 도서 목록 주소로 바로 토스(Redirect) 합니다!
 		return "redirect:/book/list";
 	}
 
