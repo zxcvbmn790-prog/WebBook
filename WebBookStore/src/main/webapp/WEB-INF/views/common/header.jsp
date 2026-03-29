@@ -11,7 +11,6 @@
             <c:if test="${not empty sessionScope.loginUser and sessionScope.loginUser ne 'admin'}">
 			    <a href="${pageContext.request.contextPath}/cart/list">장바구니</a>
 			    <a href="${pageContext.request.contextPath}/order/list">주문내역</a>
-			    <a href="#" id="headerChatBtn">실시간상담</a>
 			</c:if>
 
             <c:if test="${sessionScope.loginUser eq 'admin'}">
