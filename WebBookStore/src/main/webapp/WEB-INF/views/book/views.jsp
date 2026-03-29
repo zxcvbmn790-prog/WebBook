@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 	<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 		<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+		<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 			<style>
 				/* [1] 슬라이드 배너 */
@@ -309,19 +310,19 @@
 			</div>
 
 			<div class="category-section" style="text-align:center;">
-				<div class="category-menu">
-					<c:forEach var="cat"
-						items="${['전체', '인공지능', '초보자를 위한 컴퓨터 책', '경영전략/혁신', '인공지능/빅데이터', '컴퓨터공학/전산학 개론']}">
-						<button class="${category == cat ? 'active' : ''}"
-							onclick="location.href='${pageContext.request.contextPath}/book/list?category=${cat}'">
-							<c:choose>
-								<c:when test="${cat == '초보자를 위한 컴퓨터 책'}">입문서</c:when>
-								<c:when test="${cat == '컴퓨터공학/전산학 개론'}">컴퓨터공학</c:when>
-								<c:otherwise>${cat}</c:otherwise>
-							</c:choose>
-						</button>
-					</c:forEach>
-				</div>
+			    <div class="category-menu">
+			        <c:forEach var="cat"
+			            items="${fn:split('전체,인공지능,초보자를 위한 컴퓨터 책,경영전략/혁신,인공지능/빅데이터,컴퓨터공학/전산학 개론', ',')}">
+			            <button class="${category == cat ? 'active' : ''}"
+			                onclick="location.href='${pageContext.request.contextPath}/book/list?category=${cat}'">
+			                <c:choose>
+			                    <c:when test="${cat == '초보자를 위한 컴퓨터 책'}">입문서</c:when>
+			                    <c:when test="${cat == '컴퓨터공학/전산학 개론'}">컴퓨터공학</c:when>
+			                    <c:otherwise>${cat}</c:otherwise>
+			                </c:choose>
+			            </button>
+			        </c:forEach>
+			    </div>
 			</div>
 
 			<c:choose>
