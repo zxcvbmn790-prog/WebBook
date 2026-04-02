@@ -1,70 +1,42 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-<meta charset="UTF-8">
-<title>로그인</title>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<!-- Bootstrap 5 CDN -->
-<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-	rel="stylesheet">
+<section class="auth-page">
+    <div class="auth-card">
+        <div class="auth-top">
+            <span class="section-badge">LOGIN</span>
+            <h2>다시 만나서 반가워요</h2>
+            <p>아이디와 비밀번호를 입력해 로그인하세요.</p>
+        </div>
 
-<style>
-body {
-	background-color: #f8f9fa;
-}
+        <c:if test="${param.registered eq 'true'}">
+            <div class="auth-alert" style="background:#ecfdf3; color:#166534; border-color:#bbf7d0;">
+                회원가입이 완료되었습니다. 로그인해 주세요.
+            </div>
+        </c:if>
 
-.login-card {
-	width: 100%;
-	max-width: 400px;
-}
-</style>
-</head>
-<body>
-	<div
-		class="container d-flex justify-content-center align-items-center vh-100">
-		<div class="card shadow login-card">
-			<div class="card-body p-4">
+        <c:if test="${param.error eq 'true'}">
+            <div class="auth-alert">
+                아이디 또는 비밀번호가 올바르지 않습니다.
+            </div>
+        </c:if>
 
-				<h3 class="text-center mb-4">로그인</h3>
+        <form action="${pageContext.request.contextPath}/member/login" method="post" class="auth-form">
+            <div class="form-field">
+                <label for="username">아이디</label>
+                <input type="text" id="username" name="username" placeholder="아이디를 입력하세요" required>
+            </div>
 
-				<form action="${pageContext.request.contextPath}/member/login_proc"
-					method="post">
+            <div class="form-field">
+                <label for="password">비밀번호</label>
+                <input type="password" id="password" name="password" placeholder="비밀번호를 입력하세요" required>
+            </div>
 
-					<!-- Username -->
-					<div class="mb-3">
-						<label for="username" class="form-label">아이디</label> <input
-							type="text" class="form-control" id="username" name="username"
-							placeholder="아이디를 입력하세요" required>
-					</div>
+            <button type="submit" class="form-submit">로그인</button>
+        </form>
 
-					<!-- Password -->
-					<div class="mb-3">
-						<label for="password" class="form-label">비밀번호</label> <input
-							type="password" class="form-control" id="password"
-							name="password" placeholder="비밀번호를 입력하세요" required>
-					</div>
-
-					<!-- Login Button -->
-					<div class="d-grid mb-3">
-						<button type="submit" class="btn btn-primary">로그인</button>
-					</div>
-
-					<!-- Links -->
-					<div class="text-center">
-						<a href="${pageContext.request.contextPath}/member/register"
-							class="text-decoration-none me-2"> 회원가입 </a>
-					</div>
-				</form>
-
-			</div>
-		</div>
-	</div>
-	<!-- Bootstrap JS -->
-	<script
-		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
-</body>
-</html>
+        <div class="auth-links">
+            <a href="${pageContext.request.contextPath}/member/register">회원가입 하러 가기</a>
+        </div>
+    </div>
+</section>

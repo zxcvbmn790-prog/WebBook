@@ -1,218 +1,131 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <title>도서 수정</title>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg:           #f5f0e8;
-            --surface:      #faf7f2;
-            --border:       #e2d9cc;
-            --text:         #2c2520;
-            --text-sub:     #8a7e74;
-            --text-muted:   #b5aba0;
-            --accent:       #5c4a3a;
-            --accent-light: #e8ddd3;
-        }
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+		<style>
+			/* updateform 전용 스타일 (기존 디자인 유지) */
+			.form-wrap {
+				width: 100%;
+				max-width: 560px;
+				padding: 52px;
+				background: var(--surface);
+				border: 1px solid var(--border);
+				border-radius: 4px;
+				margin: 0 auto;
+			}
 
-        body {
-            font-family: 'DM Sans', sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            min-height: 100vh;
-        }
+			.form-tag {
+				font-size: 11px;
+				font-weight: 500;
+				letter-spacing: 1.5px;
+				text-transform: uppercase;
+				color: var(--text-sub);
+				background: var(--accent-light);
+				padding: 4px 10px;
+				border-radius: 2px;
+				display: inline-block;
+				margin-bottom: 20px;
+			}
 
-        header {
-            position: fixed;
-            top: 0; left: 0; right: 0;
-            z-index: 100;
-            height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 52px;
-            background: var(--bg);
-            border-bottom: 1px solid var(--border);
-        }
+			.form-title {
+				font-family: 'DM Serif Display', serif;
+				font-size: 30px;
+				color: var(--text);
+				margin-bottom: 36px;
+			}
 
-        .logo {
-            font-family: 'DM Serif Display', serif;
-            font-size: 18px;
-            color: var(--accent);
-        }
+			.field {
+				margin-bottom: 20px;
+			}
 
-        nav a {
-            font-size: 13px;
-            color: var(--text-sub);
-            text-decoration: none;
-            margin-left: 28px;
-            transition: color 0.2s;
-        }
+			.field label {
+				display: block;
+				font-size: 11px;
+				font-weight: 500;
+				letter-spacing: 1px;
+				text-transform: uppercase;
+				color: var(--text-muted);
+				margin-bottom: 8px;
+			}
 
-        nav a:hover { color: var(--text); }
+			.field input {
+				width: 100%;
+				padding: 12px 14px;
+				font-family: 'DM Sans', sans-serif;
+				font-size: 14px;
+				color: var(--text);
+				background: var(--bg);
+				border: 1px solid var(--border);
+				border-radius: 4px;
+				outline: none;
+				transition: border-color 0.2s;
+			}
 
-        main {
-            padding-top: 60px;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+			.field input:focus {
+				border-color: var(--accent);
+			}
 
-        .form-wrap {
-            width: 100%;
-            max-width: 560px;
-            padding: 52px;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 4px;
-            margin: 48px auto;
-        }
+			.field input[readonly] {
+				background: var(--accent-light);
+				color: var(--text-muted);
+				cursor: not-allowed;
+			}
+		</style>
 
-        .form-tag {
-            font-size: 11px;
-            font-weight: 500;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-            color: var(--text-sub);
-            background: var(--accent-light);
-            padding: 4px 10px;
-            border-radius: 2px;
-            display: inline-block;
-            margin-bottom: 20px;
-        }
+		<div class="form-wrap">
+			<span class="form-tag">Admin</span>
+			<div class="form-title">
+				<c:choose>
+					<c:when test="${not empty admin}">도서 수정</c:when>
+					<c:otherwise>신규 도서 등록</c:otherwise>
+				</c:choose>
+			</div>
 
-        .form-title {
-            font-family: 'DM Serif Display', serif;
-            font-size: 30px;
-            color: var(--text);
-            margin-bottom: 36px;
-        }
+			<form action="${pageContext.request.contextPath}/admin/${not empty admin ? 'update' : 'insert'}"
+				method="post">
 
-        .field { margin-bottom: 20px; }
+				<div class="field">
+					<label>ISBN</label>
+					<c:choose>
+						<c:when test="${not empty admin}">
+							<input type="text" value="${admin.isbn}" readonly>
+							<input type="hidden" name="isbn" value="${admin.isbn}">
+						</c:when>
+						<c:otherwise>
+							<input type="number" name="isbn" required>
+						</c:otherwise>
+					</c:choose>
+				</div>
 
-        label {
-            display: block;
-            font-size: 11px;
-            font-weight: 500;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            color: var(--text-muted);
-            margin-bottom: 8px;
-        }
+				<div class="field">
+					<label>도서명</label>
+					<input type="text" name="bookname" value="${admin.bookname}" required>
+				</div>
+				<div class="field">
+					<label>저자</label>
+					<input type="text" name="author" value="${admin.author}" required>
+				</div>
+				<div class="field">
+					<label>출판사</label>
+					<input type="text" name="publisher" value="${admin.publisher}" required>
+				</div>
+				<div class="field">
+					<label>이미지 경로 URL</label>
+					<input type="text" name="image" value="${admin.image}">
+				</div>
+				<div class="field">
+					<label>가격</label>
+					<input type="text" name="price" value="${admin.price}">
+				</div>
 
-        input {
-            width: 100%;
-            padding: 12px 14px;
-            font-family: 'DM Sans', sans-serif;
-            font-size: 14px;
-            color: var(--text);
-            background: var(--bg);
-            border: 1px solid var(--border);
-            border-radius: 4px;
-            outline: none;
-            transition: border-color 0.2s;
-        }
+				<div class="btn-group" style="margin-top: 32px; gap: 12px;">
+					<a href="${pageContext.request.contextPath}/book/list" class="btn btn-back">취소</a>
+					<button type="submit" class="btn btn-buy">
+						<c:choose>
+							<c:when test="${not empty admin}">수정 내용 저장</c:when>
+							<c:otherwise>새 도서 등록하기</c:otherwise>
+						</c:choose>
+					</button>
+				</div>
 
-        input:focus { border-color: var(--accent); }
-
-        input[readonly] {
-            background: var(--accent-light);
-            color: var(--text-muted);
-            cursor: not-allowed;
-        }
-
-        .btn-group {
-            display: flex;
-            gap: 10px;
-            margin-top: 32px;
-        }
-
-        .btn {
-            padding: 13px 22px;
-            font-family: 'DM Sans', sans-serif;
-            font-size: 13px;
-            font-weight: 500;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s;
-        }
-
-        .btn-cancel {
-            background: var(--accent-light);
-            color: var(--accent);
-            border: 1px solid var(--border);
-        }
-
-        .btn-cancel:hover { background: var(--border); }
-
-        .btn-submit {
-            flex: 1;
-            background: var(--accent);
-            color: #faf7f2;
-        }
-
-        .btn-submit:hover { background: #3e3028; }
-    </style>
-</head>
-<body>
-
-<header>
-    <div class="logo">Booklist</div>
-    <nav>
-        <a href="${pageContext.request.contextPath}/admin/list">전체 목록</a>
-    </nav>
-</header>
-
-<main>
-    <div class="form-wrap">
-        <span class="form-tag">Admin</span>
-        <div class="form-title">도서 수정</div>
-
-        <form action="${pageContext.request.contextPath}/admin/update" method="post">
-            <div class="field">
-                <label>ISBN</label>
-                <input type="text" value="${book.isbn}" readonly>
-                <input type="hidden" name="isbn" value="${book.isbn}">
-            </div>
-            <div class="field">
-                <label>도서명</label>
-                <input type="text" name="bookname" value="${book.bookname}" required>
-            </div>
-            <div class="field">
-                <label>저자</label>
-                <input type="text" name="author" value="${book.author}" required>
-            </div>
-            <div class="field">
-                <label>출판사</label>
-                <input type="text" name="publisher" value="${book.publisher}" required>
-            </div>
-            <div class="field">
-                <label>이미지 경로</label>
-                <input type="text" name="image" value="${book.image}">
-            </div>
-            <div class="field">
-                <label>가격</label>
-                <input type="text" name="price" value="${book.price}">
-            </div>
-
-            <div class="btn-group">
-                <a href="${pageContext.request.contextPath}/admin/list" class="btn btn-cancel">취소</a>
-                <button type="submit" class="btn btn-submit">수정하기</button>
-            </div>
-        </form>
-    </div>
-</main>
-
-</body>
-</html>
+			</form>
+		</div>

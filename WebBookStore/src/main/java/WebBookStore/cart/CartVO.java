@@ -14,8 +14,14 @@ import lombok.ToString;
 @Setter
 @ToString
 public class CartVO {
-    private int cartId;
-    private int memberId;
-    private int bookId;
-    private int quantity;
+	private int cart_id;
+	private String userid;
+	private int isbn;
+	private int amount;
+
+	private String bookname;
+	private String price; // BookVO와 동일하게 String 유지
+	private String image;
+
+	private int totalPrice;
 }
